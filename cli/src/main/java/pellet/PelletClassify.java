@@ -80,13 +80,13 @@ public class PelletClassify extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet classify " + getMandatoryOptions() + "[_options] <file URI>...";
+		return "openllet classify " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override
 	public String getAppId()
 	{
-		return "PelletClassify: Classify the ontology and display the hierarchy";
+		return "OpenlletClassify: Classify the ontology and display the hierarchy";
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class PelletClassify extends PelletCmdApp
 		finishTask("consistency check");
 
 		if (!isConsistent)
-			throw new PelletCmdException("Ontology is inconsistent, run \"pellet explain\" to get the reason");
+			throw new PelletCmdException("Ontology is inconsistent, run \"openllet explain\" to get the reason");
 
 		startTask("classification");
 		kb.classify();

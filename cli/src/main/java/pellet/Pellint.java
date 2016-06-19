@@ -136,7 +136,7 @@ public class Pellint extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		final String s1 = "pellet lint [_options] <file URI> ...\n";
+		final String s1 = "openllet lint [options] <file URI> ...\n";
 		final String s2 = "Note: pellet lint <file URI> without arguments prints the lint report to STDOUT.";
 		final String lb = System.getProperty("line.separator");
 		final String s = s1 + lb + lb + s2;

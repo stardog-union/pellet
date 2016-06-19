@@ -45,13 +45,13 @@ public class PelletUnsatisfiable extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet unsatisfiable " + getMandatoryOptions() + "[_options] <file URI>...";
+		return "openllet unsatisfiable " + getMandatoryOptions() + "[options] <file URI>...";
 	}
 
 	@Override
 	public String getAppId()
 	{
-		return "PelletUnsatisfiable: Find the unsatisfiable classes in the ontology";
+		return "OpenlletUnsatisfiable: Find the unsatisfiable classes in the ontology";
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class PelletUnsatisfiable extends PelletCmdApp
 		finishTask("consistency check");
 
 		if (!isConsistent)
-			throw new PelletCmdException("Ontology is inconsistent, run \"pellet explain\" to get the reason");
+			throw new PelletCmdException("Ontology is inconsistent, run \"openllet explain\" to get the reason");
 
 		final QNameProvider qnames = new QNameProvider();
 		final Set<String> unsatisfiableClasses = new TreeSet<>(Comparators.stringComparator);

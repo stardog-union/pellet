@@ -88,13 +88,13 @@ public class PelletQuery extends PelletCmdApp
 	@Override
 	public String getAppId()
 	{
-		return "PelletQuery: SPARQL-DL Query Engine";
+		return "OpenlletQuery: SPARQL-DL Query Engine";
 	}
 
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet query " + getMandatoryOptions() + "[_options] <file URI>...";
+		return "openllet query " + getMandatoryOptions() + "[options] <file URI>...";
 	}
 
 	@Override
@@ -131,9 +131,9 @@ public class PelletQuery extends PelletCmdApp
 		options.add(getInputFormatOption());
 
 		option = new PelletCmdOption("query-engine");
-		option.setType("Pellet | ARQ | Mixed");
+		option.setType("Openllet | ARQ | Mixed");
 		option.setShortOption("e");
-		option.setDescription("The query engine that will be used. Default behavior " + "is to auto select the engine that can handle the given " + "query with best performance. Pellet query " + "engine is the typically fastest but cannot handle " + "FILTER, OPTIONAL, UNION, DESCRIBE or named graphs. " + "Mixed engine uses ARQ to handle SPARQL algebra and " + "uses Pellet to answer Basic Graph Patterns (BGP) " + "which can be expressed in SPARQL-DL. ARQ engine uses " + "Pellet to answer single triple patterns and can handle " + "queries that do not fit into SPARQL-DL. As a " + "consequence SPARQL-DL extensions and complex class " + "expressions encoded inside the SPARQL query are not " + "supported.");
+		option.setDescription("The query engine that will be used. Default behavior " + "is to auto select the engine that can handle the given " + "query with best performance. Openllet query " + "engine is the typically fastest but cannot handle " + "FILTER, OPTIONAL, UNION, DESCRIBE or named graphs. " + "Mixed engine uses ARQ to handle SPARQL algebra and " + "uses Openllet to answer Basic Graph Patterns (BGP) " + "which can be expressed in SPARQL-DL. ARQ engine uses " + "Openllet to answer single triple patterns and can handle " + "queries that do not fit into SPARQL-DL. As a " + "consequence SPARQL-DL extensions and complex class " + "expressions encoded inside the SPARQL query are not " + "supported.");
 		option.setIsMandatory(false);
 		option.setArg(REQUIRED);
 		options.add(option);

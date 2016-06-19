@@ -33,6 +33,38 @@
     <module>distribution</module>
   </modules>
 
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/Galigator/openllet/issues</url>
+  </issueManagement>
+  
+  <distributionManagement>
+    <snapshotRepository>
+       <id>ossrh</id>
+       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+       <id>ossrh</id>
+       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+  
+  
+  <scm>
+    <connection>scm:git:git://github.com:Galigator/openllet.git</connection>
+    <developerConnection>scm:git:git@github.com:Galigator/openllet.git</developerConnection>
+    <url>https://github.com/Galigator/openllet</url>
+  </scm>
+  
+  
+  <developers>
+    <developer>
+       <id>galigator</id>
+       <name>Kévin Séjourné</name>
+       <email>TODO@TODO.com</email>
+    </developer>
+  </developers>
+  
   <properties>
     <junit.version>4.11</junit.version>
     <slf4j.version>1.7.10</slf4j.version>
@@ -44,10 +76,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <org.antlr.antlr-runtime>3.5.2</org.antlr.antlr-runtime>
+    <xerces.xercesImpl>2.11.0</xerces.xercesImpl>
+    <org.jgrapht.jgrapht-ext>0.9.2</org.jgrapht.jgrapht-ext>
+    <gnu.getopt.java-getopt>1.0.13</gnu.getopt.java-getopt>
   </properties>
 
   <prerequisites>
-    <maven>3.1.1</maven>
+      <maven>3.1.1</maven> <!-- Default debian 8 -->
   </prerequisites>
 
   <dependencyManagement>
@@ -68,19 +103,14 @@
         <version>${owlapi.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.katk.aterms</groupId>
-        <artifactId>aterm</artifactId>
-        <version>1.0.0</version>
-      </dependency>
-      <dependency>
         <groupId>org.jgrapht</groupId>
         <artifactId>jgrapht-ext</artifactId>
-        <version>0.9.2</version>
+        <version>${org.jgrapht.jgrapht-ext}</version>
       </dependency>
       <dependency>
         <groupId>xerces</groupId>
         <artifactId>xercesImpl</artifactId>
-        <version>2.11.0</version>
+        <version>${xerces.xercesImpl}</version>
       </dependency>
       <dependency>
         <groupId>org.antlr</groupId>
@@ -135,7 +165,7 @@
       <dependency>
         <groupId>gnu.getopt</groupId>
         <artifactId>java-getopt</artifactId>
-        <version>1.0.13</version>
+        <version>${gnu.getopt.java-getopt}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -155,6 +185,19 @@
           </configuration>
         </plugin>
 
+        <plugin> <!-- Deployement on the maven central (sonatype) use on mvn deploy -->
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.3</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          </configuration>
+        </plugin>
+        
+        
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
@@ -179,7 +222,8 @@
             </execution>
           </executions>
         </plugin>
-        <plugin>
+        
+        <plugin> <!-- Deployement on the maven central (sonatype : source) -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>2.2.1</version>
@@ -187,7 +231,7 @@
             <execution>
               <id>attach-source</id>
               <goals>
-                <goal>jar</goal>
+                <goal>jar-no-fork</goal>
               </goals>
             </execution>
             <execution>
@@ -199,7 +243,7 @@
           </executions>
         </plugin>
 
-        <plugin>
+        <plugin> <!-- Deployement on the maven central (sonatype : javadoc) -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>2.9.1</version>
@@ -212,11 +256,28 @@
             </execution>
           </executions>
         </plugin>
+        
+        <plugin> <!-- Deployement on the maven central (sonatype : signature) -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.5</version>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>        
+        
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>2.8</version>
         </plugin>
+        
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -234,6 +295,7 @@
             <argLine></argLine>
           </configuration>
         </plugin>
+        
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
@@ -274,6 +336,7 @@
           <artifactId>maven-site-plugin</artifactId>
           <version>3.3</version>
         </plugin>
+        
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>findbugs-maven-plugin</artifactId>

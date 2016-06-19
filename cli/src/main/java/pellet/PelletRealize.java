@@ -40,13 +40,13 @@ public class PelletRealize extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet realize " + getMandatoryOptions() + "[_options] <file URI>...";
+		return "openllet realize " + getMandatoryOptions() + "[options] <file URI>...";
 	}
 
 	@Override
 	public String getAppId()
 	{
-		return "PelletRealize: Compute and display the most specific instances for each class";
+		return "OpenlletRealize: Compute and display the most specific instances for each class";
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class PelletRealize extends PelletCmdApp
 		finishTask("consistency check");
 
 		if (!isConsistent)
-			throw new PelletCmdException("Ontology is inconsistent, run \"pellet explain\" to get the reason");
+			throw new PelletCmdException("Ontology is inconsistent, run \"openllet explain\" to get the reason");
 
 		startTask("classification");
 		kb.classify();

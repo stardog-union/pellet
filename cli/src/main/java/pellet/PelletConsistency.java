@@ -36,13 +36,13 @@ public class PelletConsistency extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet consistency " + getMandatoryOptions() + "[_options] <file URI>...";
+		return "openllet consistency " + getMandatoryOptions() + "[options] <file URI>...";
 	}
 
 	@Override
 	public String getAppId()
 	{
-		return "PelletConsistency: Check the consistency of an ontology";
+		return "OpenlletConsistency: Check the consistency of an ontology";
 	}
 
 	@Override
