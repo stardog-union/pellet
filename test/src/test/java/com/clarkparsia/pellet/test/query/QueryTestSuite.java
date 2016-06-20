@@ -29,7 +29,19 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Evren Sirin
  */
 @RunWith(Suite.class)
-@SuiteClasses({ TestBooleanQueries.class, TestSingleSPARQLDLQueries.class, ParserTest.class, TestParameterizedQuery.class, TestGroundBooleanQueryComponents.class, TestNegatedQueries.class, TestUnionQueries.class, TestMiscQueries.class, TestMiscSPARQL.class, SparqlDawgTestSuite.class, TestQuerySubsumption.class })
+@SuiteClasses({ //
+		TestBooleanQueries.class, //
+		TestSingleSPARQLDLQueries.class, //
+		ParserTest.class, //
+		TestParameterizedQuery.class, //
+		TestGroundBooleanQueryComponents.class, //
+		TestNegatedQueries.class, //
+		TestUnionQueries.class, //
+		TestMiscQueries.class, //
+		TestMiscSPARQL.class, //
+		SparqlDawgTestSuite.class, //
+		TestQuerySubsumption.class//
+})
 public class QueryTestSuite
 {
 	public static junit.framework.Test suite()

@@ -66,8 +66,8 @@ public class ManifestEngine
 
 	public ManifestEngine(final SparqlDawgTester tester, final String manifest)
 	{
-		this._manifest = manifest;
-		this._singleTestExecutor = new ManifestEngineProcessor()
+		_manifest = manifest;
+		_singleTestExecutor = new ManifestEngineProcessor()
 		{
 			/**
 			 * {@inheritDoc}
@@ -75,7 +75,7 @@ public class ManifestEngine
 			@Override
 			public void manifestStarted(final String manifestURI)
 			{
-				_logger.fine("START _manifest: " + manifestURI);
+				_logger.fine("START manifest: " + manifestURI);
 			}
 
 			/**
@@ -93,14 +93,14 @@ public class ManifestEngine
 			@Override
 			public void manifestFinished(final String manifestURI)
 			{
-				_logger.fine("FINISH _manifest: " + manifestURI);
+				_logger.fine("FINISH manifest: " + manifestURI);
 			}
 		};
 	}
 
 	public void setProcessor(final ManifestEngineProcessor processor)
 	{
-		this._singleTestExecutor = processor;
+		_singleTestExecutor = processor;
 	}
 
 	public ManifestEngineProcessor setProcessor()
@@ -221,7 +221,7 @@ public class ManifestEngine
 
 	private void _doTest(final String manifestURI)
 	{
-		_logger.fine("Processing _manifest : " + manifestURI + "'.");
+		_logger.fine("Processing manifest : " + manifestURI + "'.");
 		_singleTestExecutor.manifestStarted(manifestURI);
 		try
 		{
@@ -434,6 +434,6 @@ public class ManifestEngine
 
 	public void setWriteResults(final boolean writeResults)
 	{
-		this._writeResults = writeResults;
+		_writeResults = writeResults;
 	}
 }

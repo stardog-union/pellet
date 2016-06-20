@@ -67,7 +67,7 @@ import org.mindswap.pellet.test.rules.RulesTestSuite;
 		pellet.test.CLITests.class })
 public class PelletTestSuite
 {
-	public static String base = ((new File("test/data/")).exists()) ? "test/data/" : "src/test/resources/test/data";
+	public static String base = ((new File("test/data/")).exists()) ? "test/data/" : "src/test/resources/test/data/";
 
 	static
 	{

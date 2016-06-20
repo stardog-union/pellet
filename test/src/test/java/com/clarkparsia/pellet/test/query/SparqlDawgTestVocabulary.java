@@ -29,7 +29,7 @@ import org.apache.jena.rdf.model.ResourceFactory;
 public class SparqlDawgTestVocabulary
 {
 
-	private static final String manifestVocabulary = "http://www.w3.org/2001/sw/DataAccess/tests/test-_manifest#";
+	private static final String manifestVocabulary = "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#";
 	private static final String queryVocabulary = "http://www.w3.org/2001/sw/DataAccess/tests/test-query#";
 	private static final String dawgApprovalVocabulary = "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#";
 	private static final String resultSetVocabulary = "http://www.w3.org/2001/sw/DataAccess/tests/result-set#";
