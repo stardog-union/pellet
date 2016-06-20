@@ -6,13 +6,13 @@
 
 package org.mindswap.pellet.tableau.cache;
 
-import aterm.ATermAppl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 

@@ -6,13 +6,13 @@
 
 package com.clarkparsia.pellet.impl;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.BranchEffectTracker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>
@@ -55,7 +55,7 @@ public class SimpleBranchEffectTracker implements BranchEffectTracker
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see com.clarkparsia.pellet.BranchEffectTracker#add(int, aterm.ATermAppl)
+	 * @see com.clarkparsia.pellet.BranchEffectTracker#add(int, openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public boolean add(final int branch, final ATermAppl a)

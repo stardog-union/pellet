@@ -4,7 +4,6 @@ import static com.clarkparsia.pellet.utils.TermFactory.literal;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.DatatypeReasonerImpl;
 import com.clarkparsia.pellet.datatypes.Datatypes;
@@ -13,6 +12,7 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
 import java.util.Arrays;
 import java.util.Collection;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 
 /**

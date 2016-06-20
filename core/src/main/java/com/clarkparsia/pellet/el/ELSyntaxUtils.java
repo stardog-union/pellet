@@ -6,12 +6,12 @@
 
 package com.clarkparsia.pellet.el;
 
-import aterm.AFun;
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Set;
+import openllet.aterm.AFun;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.iterator.MultiListIterator;

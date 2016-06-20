@@ -35,7 +35,6 @@ import static com.clarkparsia.pellet.utils.TermFactory.BOTTOM_OBJECT_PROPERTY;
 import static com.clarkparsia.pellet.utils.TermFactory.TOP_DATA_PROPERTY;
 import static com.clarkparsia.pellet.utils.TermFactory.TOP_OBJECT_PROPERTY;
 
-import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,6 +45,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;

@@ -13,11 +13,11 @@ import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.HashSet;
 import java.util.Set;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

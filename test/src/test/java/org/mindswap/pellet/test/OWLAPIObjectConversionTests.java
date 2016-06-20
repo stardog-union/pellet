@@ -11,10 +11,10 @@ package org.mindswap.pellet.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.owlapi.ConceptConverter;
 import com.clarkparsia.pellet.owlapi.PelletVisitor;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;

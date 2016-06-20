@@ -30,11 +30,11 @@
 
 package org.mindswap.pellet.tbox;
 
-import aterm.ATermAppl;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Stream;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.tbox.impl.Unfolding;
 
 public interface TBox

@@ -28,7 +28,7 @@ import com.clarkparsia.owlwg.testcase.TestVocabulary.Individual;
  * Title: Abstract Base Test Case
  * </p>
  * <p>
- * Description: Common base implementation shared by all test case
+ * Description: Common base implementation openllet.shared.hash by all test case
  * implementations.
  * </p>
  * <p>

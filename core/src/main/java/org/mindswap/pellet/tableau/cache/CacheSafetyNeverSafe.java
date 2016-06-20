@@ -8,8 +8,8 @@
 
 package org.mindswap.pellet.tableau.cache;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.expressivity.Expressivity;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Individual;
 
 /**

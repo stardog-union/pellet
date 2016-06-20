@@ -6,7 +6,7 @@
 
 package com.clarkparsia.pellet.el;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.taxonomy.SubsumptionComparator;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.MultiValueMap;

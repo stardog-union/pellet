@@ -6,12 +6,12 @@
 
 package com.clarkparsia.pellet.expressivity;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
 import java.util.Iterator;
 import java.util.Set;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Role;

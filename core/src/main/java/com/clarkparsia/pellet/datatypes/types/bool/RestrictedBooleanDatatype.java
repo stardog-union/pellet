@@ -1,6 +1,5 @@
 package com.clarkparsia.pellet.datatypes.types.bool;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.EmptyIterator;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
@@ -8,6 +7,7 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetExcep
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

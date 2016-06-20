@@ -36,7 +36,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertSubClass;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.DatatypeReasonerImpl;
 import com.clarkparsia.pellet.datatypes.Datatypes;
@@ -51,6 +50,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

@@ -36,8 +36,6 @@ package org.mindswap.pellet;
 
 import static java.lang.String.format;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.exceptions.DatatypeReasonerException;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
@@ -46,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
 import java.util.Set;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.ATermUtils;

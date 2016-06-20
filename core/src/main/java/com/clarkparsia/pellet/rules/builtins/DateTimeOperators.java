@@ -8,7 +8,6 @@ package com.clarkparsia.pellet.rules.builtins;
 
 import static org.mindswap.pellet.utils.Namespaces.XSD;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.types.datetime.XSDDate;
@@ -19,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;

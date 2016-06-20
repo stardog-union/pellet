@@ -8,10 +8,10 @@
 
 package pellet;
 
-import aterm.ATermAppl;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Comparators;

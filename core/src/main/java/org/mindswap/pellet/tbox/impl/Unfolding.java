@@ -8,8 +8,8 @@
 
 package org.mindswap.pellet.tbox.impl;
 
-import aterm.ATermAppl;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 
 /**

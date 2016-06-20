@@ -12,9 +12,9 @@ import static com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory.PropertyVal
 import static com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory.TypeAtom;
 import static com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory.UnionAtom;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import java.util.Arrays;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 
 /**

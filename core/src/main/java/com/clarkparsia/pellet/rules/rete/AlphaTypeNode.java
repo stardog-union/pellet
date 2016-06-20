@@ -6,13 +6,13 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.model.AtomIConstant;
 import com.clarkparsia.pellet.rules.model.AtomObject;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.ClassAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import java.util.Iterator;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Individual;

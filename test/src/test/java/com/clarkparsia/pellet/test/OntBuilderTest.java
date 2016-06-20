@@ -5,7 +5,6 @@ package com.clarkparsia.pellet.test;
 
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.model.AtomIConstant;
 import com.clarkparsia.pellet.rules.model.ClassAtom;
 import com.clarkparsia.pellet.rules.model.Rule;
@@ -13,6 +12,7 @@ import com.clarkparsia.pellet.utils.OntBuilder;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;

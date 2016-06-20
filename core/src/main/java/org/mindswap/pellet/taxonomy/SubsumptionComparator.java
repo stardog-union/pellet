@@ -6,7 +6,7 @@
 
 package org.mindswap.pellet.taxonomy;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.PartialOrderComparator;
 import org.mindswap.pellet.utils.PartialOrderRelation;

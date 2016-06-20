@@ -30,9 +30,9 @@
 
 package org.mindswap.pellet.output;
 
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
 
 /**
  * A simple implementation to output the terms in OWL abstract syntax.
@@ -43,7 +43,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 {
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitAnd(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitAnd(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitAnd(final ATermAppl term)
@@ -54,7 +54,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitOr(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitOr(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitOr(final ATermAppl term)
@@ -65,7 +65,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitNot(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitNot(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitNot(final ATermAppl term)
@@ -76,7 +76,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitSome(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitSome(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitSome(final ATermAppl term)
@@ -89,7 +89,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitAll(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitAll(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitAll(final ATermAppl term)
@@ -102,7 +102,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitMin(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitMin(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitMin(final ATermAppl term)
@@ -114,7 +114,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitMax(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitMax(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitMax(final ATermAppl term)
@@ -135,7 +135,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitLiteral(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitLiteral(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitLiteral(final ATermAppl lit)
@@ -157,7 +157,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitOneOf(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitOneOf(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitOneOf(final ATermAppl term)
@@ -176,7 +176,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitValue(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitValue(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitHasValue(final ATermAppl term)
@@ -193,7 +193,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitValue(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitValue(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitValue(final ATermAppl term)
@@ -204,7 +204,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitList(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitList(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitList(ATermList list)

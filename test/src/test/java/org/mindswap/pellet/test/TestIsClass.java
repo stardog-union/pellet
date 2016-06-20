@@ -10,10 +10,10 @@ import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;

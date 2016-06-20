@@ -6,9 +6,9 @@
 
 package org.mindswap.pellet.taxonomy;
 
-import aterm.ATermAppl;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.PartialOrderBuilder;

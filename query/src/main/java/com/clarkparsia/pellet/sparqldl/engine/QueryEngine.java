@@ -13,7 +13,6 @@ import static com.clarkparsia.pellet.utils.TermFactory.hasValue;
 import static com.clarkparsia.pellet.utils.TermFactory.not;
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.exceptions.DatatypeReasonerException;
 import com.clarkparsia.pellet.sparqldl.model.MultiQueryResults;
@@ -41,6 +40,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;

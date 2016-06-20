@@ -21,10 +21,10 @@ import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertEquals;
 
-import aterm.ATermAppl;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 import org.mindswap.pellet.output.ATermManchesterSyntaxRenderer;
 import org.mindswap.pellet.output.ATermRenderer;

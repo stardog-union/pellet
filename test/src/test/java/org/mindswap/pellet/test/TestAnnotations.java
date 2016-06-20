@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.owlapi.OWLAPILoader;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
@@ -15,6 +14,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;

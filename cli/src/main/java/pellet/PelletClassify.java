@@ -10,7 +10,6 @@ package pellet;
 
 import static pellet.PelletCmdOptionArg.NONE;
 
-import aterm.ATermAppl;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.OntologyDiff;
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
@@ -26,6 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.taxonomy.printer.ClassTreePrinter;

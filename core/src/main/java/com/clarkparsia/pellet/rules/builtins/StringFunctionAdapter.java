@@ -8,7 +8,7 @@ package com.clarkparsia.pellet.rules.builtins;
 
 import static com.clarkparsia.pellet.rules.builtins.ComparisonTesters.expectedIfEquals;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.utils.ATermUtils;

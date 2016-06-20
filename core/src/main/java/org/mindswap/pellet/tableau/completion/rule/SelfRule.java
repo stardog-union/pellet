@@ -6,9 +6,9 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
-import aterm.ATermAppl;
 import java.util.List;
 import java.util.logging.Level;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.PelletOptions;

@@ -8,7 +8,6 @@ package com.clarkparsia.pellet.rules.builtins;
 
 import static com.clarkparsia.pellet.rules.builtins.ComparisonTesters.expectedIfEquals;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.BindingHelper;
 import com.clarkparsia.pellet.rules.VariableBinding;
 import com.clarkparsia.pellet.rules.VariableUtils;
@@ -23,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;

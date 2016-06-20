@@ -8,15 +8,15 @@ package org.mindswap.pellet.tableau.cache;
 
 import static com.clarkparsia.pellet.utils.TermFactory.TOP;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;

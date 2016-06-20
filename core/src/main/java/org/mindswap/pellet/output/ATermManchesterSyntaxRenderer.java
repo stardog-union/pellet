@@ -1,14 +1,14 @@
 package org.mindswap.pellet.output;
 
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.Facet;
 import com.clarkparsia.pellet.datatypes.types.floating.XSDFloat;
 import com.clarkparsia.pellet.datatypes.types.real.XSDDecimal;
 import com.clarkparsia.pellet.datatypes.types.real.XSDInteger;
 import java.util.HashMap;
 import java.util.Map;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.utils.ATermUtils;
 
 /**

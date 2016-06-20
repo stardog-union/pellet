@@ -25,13 +25,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.DNF;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.junit.Test;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Comparators;
@@ -63,7 +63,7 @@ public class ATermTests
 	{
 		// test case for #423
 
-		// the following two terms are known to have equivalent hascodes with aterm 1.6
+		// the following two terms are known to have equivalent hascodes with openllet.aterm 1.6
 		final ATermAppl a = term("http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Carboplatin_Paclitaxel_ZD-6474");
 		final ATermAppl b = term("http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Henna");
 		// an arbitrary term that is known to have a different hahshcode

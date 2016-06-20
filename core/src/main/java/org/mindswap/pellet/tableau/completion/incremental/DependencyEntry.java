@@ -6,9 +6,9 @@
 
 package org.mindswap.pellet.tableau.completion.incremental;
 
-import aterm.ATermAppl;
 import java.util.HashSet;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.DefaultEdge;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.tableau.branch.Branch;

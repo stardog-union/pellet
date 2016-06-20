@@ -8,7 +8,6 @@
 
 package com.clarkparsia.pellet.rules;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.model.AtomDObject;
 import com.clarkparsia.pellet.rules.model.AtomIObject;
 import com.clarkparsia.pellet.rules.model.AtomObject;
@@ -26,6 +25,7 @@ import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;

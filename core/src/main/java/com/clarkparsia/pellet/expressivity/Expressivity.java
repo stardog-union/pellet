@@ -30,9 +30,9 @@
 
 package com.clarkparsia.pellet.expressivity;
 
-import aterm.ATermAppl;
 import java.util.HashSet;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

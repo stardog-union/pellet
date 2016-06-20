@@ -6,10 +6,10 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
-import aterm.ATermAppl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

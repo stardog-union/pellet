@@ -9,11 +9,11 @@ import static org.mindswap.pellet.utils.ATermUtils.makeOr;
 import static org.mindswap.pellet.utils.ATermUtils.nnf;
 import static org.mindswap.pellet.utils.ATermUtils.toSet;
 
-import aterm.AFun;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import java.util.ArrayList;
 import java.util.List;
+import openllet.aterm.AFun;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.utils.iterator.MultiListIterator;
 
 /**

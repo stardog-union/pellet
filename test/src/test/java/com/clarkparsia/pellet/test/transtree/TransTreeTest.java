@@ -3,12 +3,12 @@ package com.clarkparsia.pellet.test.transtree;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import com.clarkparsia.owlapi.OntologyUtils;
 import com.clarkparsia.pellet.owlapi.OWLAPILoader;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.taxonomy.POTaxonomyBuilder;

@@ -8,10 +8,10 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
-import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

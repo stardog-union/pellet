@@ -2,7 +2,6 @@ package com.clarkparsia.pellet.datatypes.types.real;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.AbstractBaseDatatype;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.OWLRealUtils;
@@ -11,6 +10,7 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;

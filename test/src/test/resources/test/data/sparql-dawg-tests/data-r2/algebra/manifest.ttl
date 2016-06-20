@@ -49,7 +49,7 @@
          mf:name    "Nested Optionals - 1" ;
     dawgt:approval dawgt:Approved ;
     dawgt:approvedBy <http://www.w3.org/2007/06/19-dawg-minutes.html> ;
-    rdfs:comment """Nested-optionals with a shared variable that does not appear in the middle pattern (a not well-formed query pattern as per "Semantics and Complexity" of SPARQL""" ;
+    rdfs:comment """Nested-optionals with a openllet.shared.hash variable that does not appear in the middle pattern (a not well-formed query pattern as per "Semantics and Complexity" of SPARQL""" ;
          mf:action
             [ qt:query  <two-nested-opt.rq> ;
               qt:data   <two-nested-opt.ttl> ] ;

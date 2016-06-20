@@ -30,11 +30,11 @@
 
 package org.mindswap.pellet;
 
-import aterm.ATermAppl;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.tableau.completion.incremental.DependencyIndex;
 import org.mindswap.pellet.utils.SetUtils;
@@ -141,7 +141,7 @@ public class DependencySet
 	}
 
 	/**
-	 * Creates a new DependencySet object with a new _branch number where the IntSet is shared (changing one will change the other).
+	 * Creates a new DependencySet object with a new _branch number where the IntSet is openllet.shared.hash (changing one will change the other).
 	 *
 	 * @return
 	 */

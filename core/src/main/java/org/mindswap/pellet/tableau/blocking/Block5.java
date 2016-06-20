@@ -6,7 +6,7 @@
 
 package org.mindswap.pellet.tableau.blocking;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.utils.ATermUtils;

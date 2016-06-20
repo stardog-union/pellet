@@ -1,9 +1,9 @@
 package org.mindswap.pellet.jena.graph.converter;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;

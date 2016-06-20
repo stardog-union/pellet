@@ -24,9 +24,6 @@ package org.mindswap.pellet;
 
 import static com.clarkparsia.pellet.utils.TermFactory.TOP;
 
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.exceptions.DatatypeReasonerException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +33,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.cache.CachedNode;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;

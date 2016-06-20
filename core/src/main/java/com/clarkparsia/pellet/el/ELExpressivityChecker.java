@@ -11,13 +11,13 @@ package com.clarkparsia.pellet.el;
 import static com.clarkparsia.pellet.el.ELSyntaxUtils.isEL;
 import static com.clarkparsia.pellet.el.ELSyntaxUtils.simplify;
 
-import aterm.AFun;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 import com.clarkparsia.pellet.expressivity.ProfileBasedExpressivityChecker;
 import java.util.Collection;
 import java.util.Iterator;
+import openllet.aterm.AFun;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.KnowledgeBase;

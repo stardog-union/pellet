@@ -6,7 +6,6 @@
 
 package org.mindswap.pellet.tableau.completion.incremental;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.IncrementalChangeTracker;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.EdgeList;

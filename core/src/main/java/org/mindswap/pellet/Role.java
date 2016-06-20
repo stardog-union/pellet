@@ -30,9 +30,6 @@
 
 package org.mindswap.pellet;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.Collections;
@@ -40,6 +37,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.SetUtils;

@@ -6,11 +6,11 @@
 
 package org.mindswap.pellet.tableau.cache;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import openllet.aterm.ATermAppl;
 import java.util.Set;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;

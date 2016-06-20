@@ -6,7 +6,6 @@
 
 package com.clarkparsia.owlapi.explanation;
 
-import aterm.ATermAppl;
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.OntologyUtils;
 import com.clarkparsia.owlapi.explanation.util.DefinitionTracker;
@@ -19,6 +18,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Pair;

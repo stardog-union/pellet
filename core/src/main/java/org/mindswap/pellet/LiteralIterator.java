@@ -6,9 +6,9 @@
 
 package org.mindswap.pellet;
 
-import aterm.ATermAppl;
 import java.util.Iterator;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 
 /**
  * An iterator to return _nodes in the _order they are added. Having a seperate iterator instead of using _nodes.iterator() allows to change the _nodes table

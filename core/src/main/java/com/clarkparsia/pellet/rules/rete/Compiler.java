@@ -8,7 +8,6 @@ package com.clarkparsia.pellet.rules.rete;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
 import com.clarkparsia.pellet.rules.BindingHelper;
@@ -45,6 +44,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Individual;

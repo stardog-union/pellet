@@ -21,7 +21,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  * Title: Abstract Entailment Test Case
  * </p>
  * <p>
- * Description: Common base implementation shared by positive and negative entailment tests
+ * Description: Common base implementation openllet.shared.hash by positive and negative entailment tests
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009

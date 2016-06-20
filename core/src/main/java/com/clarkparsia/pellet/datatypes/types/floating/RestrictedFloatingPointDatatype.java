@@ -2,7 +2,6 @@ package com.clarkparsia.pellet.datatypes.types.floating;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.EmptyRestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.Facet;
@@ -19,6 +18,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 
 /**

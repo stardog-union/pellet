@@ -2,12 +2,12 @@ package com.clarkparsia.pellet.datatypes.types.duration;
 
 import static com.clarkparsia.pellet.datatypes.types.datetime.RestrictedTimelineDatatype.getDatatypeFactory;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.AbstractBaseDatatype;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import javax.xml.datatype.Duration;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 

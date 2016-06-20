@@ -8,8 +8,6 @@ package com.clarkparsia.pellet.owlapi;
 
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
-import aterm.ATermAppl;
-import com.intrinsec.owlapi.facet.FacetReasonerOWL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,6 +17,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import openllet.aterm.ATermAppl;
+import openllet.owlapi.facet.FacetReasonerOWL;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.semanticweb.owlapi.model.AxiomType;

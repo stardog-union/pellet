@@ -2,12 +2,12 @@ package com.clarkparsia.pellet.test.annotations;
 
 import static org.junit.Assert.assertEquals;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 import java.util.HashSet;
 import java.util.Set;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ModelFactory;

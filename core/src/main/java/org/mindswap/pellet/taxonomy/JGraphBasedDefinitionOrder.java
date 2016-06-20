@@ -9,8 +9,6 @@ package org.mindswap.pellet.taxonomy;
 import static com.clarkparsia.pellet.utils.TermFactory.BOTTOM;
 import static com.clarkparsia.pellet.utils.TermFactory.TOP;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,6 +20,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.alg.KosarajuStrongConnectivityInspector;
 import org.jgrapht.alg.interfaces.StrongConnectivityAlgorithm;

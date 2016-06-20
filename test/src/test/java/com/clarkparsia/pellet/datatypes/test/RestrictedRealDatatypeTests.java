@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.OWLRealUtils;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
@@ -22,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Iterator;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 
 /**

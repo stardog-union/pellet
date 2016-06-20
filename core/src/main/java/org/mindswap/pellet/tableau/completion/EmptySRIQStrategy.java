@@ -30,8 +30,6 @@
 
 package org.mindswap.pellet.tableau.completion;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +38,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;

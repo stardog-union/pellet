@@ -10,7 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.BindingGenerator;
 import com.clarkparsia.pellet.rules.BindingGeneratorImpl;
 import com.clarkparsia.pellet.rules.BindingHelper;
@@ -36,6 +35,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import openllet.aterm.ATermAppl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mindswap.pellet.Individual;

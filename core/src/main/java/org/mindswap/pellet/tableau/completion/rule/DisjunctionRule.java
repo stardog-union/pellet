@@ -8,11 +8,11 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.PelletOptions;

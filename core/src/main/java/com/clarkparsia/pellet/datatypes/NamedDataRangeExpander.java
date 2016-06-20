@@ -1,10 +1,10 @@
 package com.clarkparsia.pellet.datatypes;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.output.ATermBaseVisitor;
 import org.mindswap.pellet.utils.ATermUtils;
 

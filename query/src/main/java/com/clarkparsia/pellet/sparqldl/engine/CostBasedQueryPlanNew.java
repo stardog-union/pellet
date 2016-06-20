@@ -8,7 +8,6 @@
 
 package com.clarkparsia.pellet.sparqldl.engine;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryAtom;
 import com.clarkparsia.pellet.sparqldl.model.QueryPredicate;
@@ -19,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.UnsupportedQueryException;
 import org.mindswap.pellet.utils.ATermUtils;

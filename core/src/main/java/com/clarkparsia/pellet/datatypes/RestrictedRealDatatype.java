@@ -2,7 +2,6 @@ package com.clarkparsia.pellet.datatypes;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Facet.XSD;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 
 /**

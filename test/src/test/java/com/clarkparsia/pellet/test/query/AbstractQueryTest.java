@@ -9,7 +9,6 @@ package com.clarkparsia.pellet.test.query;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.Query.VarType;
@@ -22,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import openllet.aterm.ATermAppl;
 import org.junit.Assert;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.utils.ATermUtils;

@@ -6,8 +6,8 @@
 
 package org.mindswap.pellet.tableau.cache;
 
-import aterm.ATermAppl;
 import java.util.Map;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.Bool;
 

@@ -30,7 +30,7 @@
 
 package org.mindswap.pellet.tableau.completion.queue;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Node;
 
 /**

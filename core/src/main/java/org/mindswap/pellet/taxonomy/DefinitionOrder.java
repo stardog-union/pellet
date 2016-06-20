@@ -8,8 +8,8 @@
 
 package org.mindswap.pellet.taxonomy;
 
-import aterm.ATermAppl;
 import java.util.Iterator;
+import openllet.aterm.ATermAppl;
 
 /**
  * A class to compute the definition _order for concepts and tell if a concept is used in cyclic definition. The definition _order is computed after the TBox

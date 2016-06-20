@@ -30,9 +30,9 @@
 
 package org.mindswap.pellet.output;
 
-import aterm.AFun;
-import aterm.ATermAppl;
-import aterm.ATermList;
+import openllet.aterm.AFun;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
@@ -117,7 +117,7 @@ public abstract class ATermBaseVisitor implements ATermVisitor
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitList(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitList(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitList(ATermList list)

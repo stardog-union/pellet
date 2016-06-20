@@ -6,7 +6,6 @@
 
 package org.mindswap.pellet.jena.graph.query;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;

@@ -14801,8 +14801,8 @@ This is trivially true given that first:p is an
     xmlns:first="http://www.w3.org/2002/03owlt/I5.3/consistent009#"
     xml:base="http://www.w3.org/2002/03owlt/I5.3/consistent009" &gt;
    &lt;owl:Thing&gt;
-     &lt;first:p rdf:nodeID="shared" /&gt;
-     &lt;first:q rdf:nodeID="shared" /&gt;
+     &lt;first:p rdf:nodeID="openllet.shared.hash" /&gt;
+     &lt;first:q rdf:nodeID="openllet.shared.hash" /&gt;
    &lt;/owl:Thing&gt;
    &lt;owl:ObjectProperty rdf:ID="p" /&gt;
    &lt;owl:ObjectProperty rdf:ID="q" /&gt;

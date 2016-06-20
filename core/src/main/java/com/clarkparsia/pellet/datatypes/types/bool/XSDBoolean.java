@@ -1,12 +1,12 @@
 package com.clarkparsia.pellet.datatypes.types.bool;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.AbstractBaseDatatype;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.utils.TermFactory;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

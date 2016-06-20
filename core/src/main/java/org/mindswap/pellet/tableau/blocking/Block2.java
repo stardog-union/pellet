@@ -6,10 +6,10 @@
 
 package org.mindswap.pellet.tableau.blocking;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import java.util.Set;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.utils.ATermUtils;

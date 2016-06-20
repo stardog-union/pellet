@@ -27,7 +27,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 import static org.mindswap.pellet.utils.Namespaces.SWRLB;
 
-import aterm.ATermAppl;
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.SWRL;
 import com.clarkparsia.pellet.datatypes.Datatypes;
@@ -56,6 +55,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;

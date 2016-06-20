@@ -2,8 +2,6 @@ package com.clarkparsia.pellet.datatypes;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetException;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
@@ -57,6 +55,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.PelletOptions;

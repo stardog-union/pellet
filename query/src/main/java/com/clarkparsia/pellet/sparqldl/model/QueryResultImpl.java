@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
-import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import openllet.aterm.ATermAppl;
 import java.util.Set;
 
 /**

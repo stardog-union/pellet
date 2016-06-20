@@ -20,9 +20,9 @@ import static org.mindswap.pellet.test.PelletTestCase.addStatements;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 import static org.mindswap.pellet.test.PelletTestCase.assertPropertyValues;
 
-import aterm.ATermAppl;
 import java.util.Arrays;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;

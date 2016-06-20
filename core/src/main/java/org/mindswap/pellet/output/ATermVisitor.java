@@ -30,8 +30,8 @@
 
 package org.mindswap.pellet.output;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 
 /**
  * A visitor interface specifically designed for structures in Pellet. Since the class descriptions in Pellet are all represented as ATermAppl's with different

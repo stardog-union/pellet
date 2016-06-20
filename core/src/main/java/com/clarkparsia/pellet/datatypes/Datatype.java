@@ -1,7 +1,7 @@
 package com.clarkparsia.pellet.datatypes;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

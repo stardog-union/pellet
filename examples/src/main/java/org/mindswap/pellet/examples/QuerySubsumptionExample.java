@@ -6,7 +6,6 @@
 
 package org.mindswap.pellet.examples;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.engine.QuerySubsumption;
 import com.clarkparsia.pellet.sparqldl.model.Query;
@@ -14,6 +13,7 @@ import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
 import com.clarkparsia.pellet.sparqldl.parser.QueryParser;
 import java.util.Iterator;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.mindswap.pellet.KnowledgeBase;

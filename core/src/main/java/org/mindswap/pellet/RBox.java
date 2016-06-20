@@ -30,9 +30,6 @@
 
 package org.mindswap.pellet;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,6 +40,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
 import org.mindswap.pellet.taxonomy.Taxonomy;

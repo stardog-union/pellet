@@ -6,7 +6,6 @@
 
 package org.mindswap.pellet.tableau.completion.incremental;
 
-import aterm.ATermAppl;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;

@@ -8,7 +8,7 @@
 
 package pellet;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.taxonomy.printer.ClassTreePrinter;
 import org.mindswap.pellet.taxonomy.printer.TaxonomyPrinter;

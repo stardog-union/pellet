@@ -20,9 +20,9 @@ import static org.mindswap.pellet.utils.ATermUtils.makeNot;
 import static org.mindswap.pellet.utils.ATermUtils.makeOr;
 import static org.mindswap.pellet.utils.ATermUtils.makeSub;
 
-import aterm.ATermAppl;
 import java.util.Collections;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;

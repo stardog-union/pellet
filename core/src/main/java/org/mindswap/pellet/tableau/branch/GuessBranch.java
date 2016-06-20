@@ -6,8 +6,8 @@
 
 package org.mindswap.pellet.tableau.branch;
 
-import aterm.ATermAppl;
 import java.util.logging.Level;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;

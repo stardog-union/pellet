@@ -6,10 +6,6 @@
 
 package com.clarkparsia.pellet.el;
 
-import aterm.AFun;
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +13,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.AFun;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;

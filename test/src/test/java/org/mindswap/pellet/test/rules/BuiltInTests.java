@@ -13,7 +13,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.rules.BindingHelper;
 import com.clarkparsia.pellet.rules.VariableBinding;
@@ -41,6 +40,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;

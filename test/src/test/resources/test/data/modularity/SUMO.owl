@@ -989,7 +989,7 @@ corporation's operation.</rdfs:comment>
 <rdfs:subClassOf rdf:resource ="#SelfConnectedObject"/>
 <disjoint rdf:resource = "#Substance" />
 <rdfs:comment>A SelfConnectedObject whose parts have 
-properties that are not shared by the whole.</rdfs:comment>
+properties that are not openllet.shared.hash by the whole.</rdfs:comment>
 </rdfs:Class>
 
 <rdfs:Class rdf:ID= "Counting">
@@ -1350,7 +1350,7 @@ this Predicate holds between two EngineeringComponents, there exists an
 EngineeringConnection.  The practical reason for reifying a relationship 
 is to be able to attach other information about it. For example, one
 might want to say that a particular connection is associated with some 
-shared parameters, or that it is of a particular type.  
+openllet.shared.hash parameters, or that it is of a particular type.  
 EngineeringConnections are EngineeringComponents and can therefore be 
 an engineeringSubcomponent of other EngineeringComponents.  However, 
 to provide for modular regularity in component systems, 

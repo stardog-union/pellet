@@ -27,7 +27,6 @@ import static org.junit.Assume.assumeThat;
 import static org.mindswap.pellet.utils.ATermUtils.negate;
 import static org.mindswap.pellet.utils.ATermUtils.normalize;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.rules.model.AtomIVariable;
 import com.clarkparsia.pellet.rules.model.ClassAtom;
@@ -39,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -1764,7 +1764,7 @@ public class IncConsistencyTests extends AbstractKBTests
 	public void testCopyKB()
 	{
 		// this test case is to verify that when a KB is copied the ABox
-		// will be duplicated but TBox and RBox is shared	
+		// will be duplicated but TBox and RBox is openllet.shared.hash	
 
 		final KnowledgeBase kb = new KnowledgeBase();
 

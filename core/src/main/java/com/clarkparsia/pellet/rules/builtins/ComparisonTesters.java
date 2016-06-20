@@ -8,7 +8,6 @@ package com.clarkparsia.pellet.rules.builtins;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.Facet;
 import com.clarkparsia.pellet.datatypes.exceptions.DatatypeReasonerException;
@@ -16,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.utils.ATermUtils;

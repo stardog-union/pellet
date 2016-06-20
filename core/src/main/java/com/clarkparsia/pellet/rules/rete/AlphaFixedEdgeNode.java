@@ -6,7 +6,7 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;

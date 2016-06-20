@@ -18,7 +18,7 @@
     <licenses>
         <license>
             <name>BSD license</name>
-            <url>https://github.com/ansell/aterms/blob/master/aterm-java/COPYING</url>
+            <url>https://github.com/ansell/aterms/blob/master/openllet.aterm-java/COPYING</url>
             <distribution>repo</distribution>
         </license>
     </licenses>

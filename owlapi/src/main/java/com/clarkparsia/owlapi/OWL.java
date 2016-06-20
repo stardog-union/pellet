@@ -8,8 +8,6 @@
 
 package com.clarkparsia.owlapi;
 
-import com.intrinsec.owlapi.facet.FacetFactoryOWL;
-import com.intrinsec.owlapi.facet.FacetManagerOWL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,6 +15,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import openllet.owlapi.facet.FacetFactoryOWL;
+import openllet.owlapi.facet.FacetManagerOWL;
 import openllet.shared.tools.Log;
 import openllet.shared.tools.Logging;
 import org.mindswap.pellet.utils.Namespaces;

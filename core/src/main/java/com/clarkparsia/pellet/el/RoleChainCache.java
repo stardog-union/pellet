@@ -6,12 +6,12 @@
 
 package com.clarkparsia.pellet.el;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.utils.ATermUtils;

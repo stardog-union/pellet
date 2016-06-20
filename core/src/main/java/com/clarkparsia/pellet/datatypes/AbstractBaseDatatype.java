@@ -1,6 +1,6 @@
 package com.clarkparsia.pellet.datatypes;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 
 /**
@@ -8,7 +8,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  * Title: Abstract base datatype type
  * </p>
  * <p>
- * Description: Base implementation to handle some boiler plate code shared by all datatype implementations
+ * Description: Base implementation to handle some boiler plate code openllet.shared.hash by all datatype implementations
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009

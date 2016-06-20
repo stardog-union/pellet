@@ -8,14 +8,14 @@
 
 package com.clarkparsia.pellet.owlapi;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
-import com.intrinsec.owlapi.facet.FacetFactoryOWL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
+import openllet.owlapi.facet.FacetFactoryOWL;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;

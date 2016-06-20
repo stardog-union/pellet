@@ -2,15 +2,15 @@ package com.clarkparsia.pellet.owlapi;
 
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory;
 import com.clarkparsia.pellet.sparqldl.model.QueryImpl;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
-import com.intrinsec.owlapi.facet.FacetReasonerOWL;
 import java.util.ArrayList;
 import java.util.List;
+import openllet.aterm.ATermAppl;
+import openllet.owlapi.facet.FacetReasonerOWL;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAxiomVisitor;

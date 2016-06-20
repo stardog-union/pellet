@@ -1,12 +1,12 @@
 package com.clarkparsia.pellet.datatypes.types.uri;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.AbstractBaseDatatype;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 

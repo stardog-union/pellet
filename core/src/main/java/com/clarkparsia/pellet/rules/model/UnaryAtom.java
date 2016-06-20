@@ -6,9 +6,9 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-import aterm.ATermAppl;
 import java.util.Collections;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 
 /**

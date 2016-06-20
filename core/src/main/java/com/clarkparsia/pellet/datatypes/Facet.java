@@ -1,8 +1,8 @@
 package com.clarkparsia.pellet.datatypes;
 
-import aterm.ATermAppl;
 import java.util.HashMap;
 import java.util.Map;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 

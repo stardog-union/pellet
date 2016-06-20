@@ -1,11 +1,11 @@
 package com.clarkparsia.pellet.sparqldl.engine;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryAtom;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.UnsupportedQueryException;
 

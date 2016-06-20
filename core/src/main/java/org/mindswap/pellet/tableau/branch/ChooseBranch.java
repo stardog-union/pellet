@@ -6,7 +6,7 @@
 
 package org.mindswap.pellet.tableau.branch;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Node;

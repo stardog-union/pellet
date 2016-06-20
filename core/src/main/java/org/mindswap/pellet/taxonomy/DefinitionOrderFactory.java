@@ -9,8 +9,8 @@ package org.mindswap.pellet.taxonomy;
 import static org.mindswap.pellet.PelletOptions.OrderedClassification.DISABLED;
 import static org.mindswap.pellet.PelletOptions.OrderedClassification.ENABLED_LEGACY_ORDERING;
 
-import aterm.ATerm;
 import java.util.Comparator;
+import openllet.aterm.ATerm;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Comparators;

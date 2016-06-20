@@ -6,7 +6,7 @@
 
 package org.mindswap.pellet.tableau.completion.incremental;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 
 /**
  * Abstract class for a _branch dependency

@@ -6,11 +6,11 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
-import aterm.ATermAppl;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.QuerySolutionMap;
 import org.mindswap.pellet.jena.JenaUtils;

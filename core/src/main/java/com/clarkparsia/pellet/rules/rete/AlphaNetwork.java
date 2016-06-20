@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.model.AtomConstant;
 import com.clarkparsia.pellet.rules.model.AtomObject;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;

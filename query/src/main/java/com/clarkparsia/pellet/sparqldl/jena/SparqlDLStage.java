@@ -8,7 +8,6 @@
 
 package com.clarkparsia.pellet.sparqldl.jena;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
@@ -20,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;

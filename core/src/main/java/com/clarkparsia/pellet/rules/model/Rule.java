@@ -8,10 +8,10 @@ package com.clarkparsia.pellet.rules.model;
 
 import static java.util.Collections.singleton;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.RulesToATermTranslator;
 import java.util.Collection;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 
 /**

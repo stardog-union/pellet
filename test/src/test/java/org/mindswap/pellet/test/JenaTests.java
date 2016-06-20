@@ -17,7 +17,6 @@ import static org.mindswap.pellet.test.PelletTestCase.assertIteratorContains;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 import static org.mindswap.pellet.test.PelletTestCase.assertPropertyValues;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.DatatypeReasonerImpl;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
@@ -28,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.datatypes.TypeMapper;
 import org.apache.jena.graph.compose.Union;
 import org.apache.jena.ontology.AnnotationProperty;

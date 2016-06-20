@@ -6,9 +6,9 @@
 
 package org.mindswap.pellet;
 
-import aterm.ATermAppl;
 import java.util.Iterator;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
 
 /**

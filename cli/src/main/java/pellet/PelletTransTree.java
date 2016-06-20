@@ -11,11 +11,11 @@ package pellet;
 import static pellet.PelletCmdOptionArg.NONE;
 import static pellet.PelletCmdOptionArg.REQUIRED;
 
-import aterm.ATermAppl;
 import com.clarkparsia.owlapi.OntologyUtils;
 import com.clarkparsia.pellet.owlapi.OWLAPILoader;
 import java.util.HashSet;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.taxonomy.POTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.SubsumptionComparator;

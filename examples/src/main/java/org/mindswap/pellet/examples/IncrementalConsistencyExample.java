@@ -6,8 +6,8 @@
 
 package org.mindswap.pellet.examples;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;

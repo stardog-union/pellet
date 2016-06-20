@@ -6,7 +6,6 @@
 
 package org.mindswap.pellet.tbox.impl;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.io.IOException;
 import java.util.Iterator;
@@ -16,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.BinarySet;

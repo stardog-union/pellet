@@ -30,9 +30,6 @@
 
 package org.mindswap.pellet.tableau.completion;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.IncrementalChangeTracker;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 import java.util.ArrayList;
@@ -41,6 +38,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DefaultEdge;
 import org.mindswap.pellet.DependencySet;

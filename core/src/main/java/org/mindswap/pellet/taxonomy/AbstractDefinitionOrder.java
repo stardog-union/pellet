@@ -6,14 +6,14 @@
 
 package org.mindswap.pellet.taxonomy;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.tbox.TBox;
 import org.mindswap.pellet.tbox.impl.Unfolding;

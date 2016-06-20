@@ -6,10 +6,10 @@
 
 package com.clarkparsia.pellet.el;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Collections;
 import java.util.Map.Entry;
+import openllet.aterm.ATermAppl;
 import java.util.Set;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;

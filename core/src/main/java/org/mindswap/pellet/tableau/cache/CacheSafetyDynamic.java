@@ -8,12 +8,12 @@
 
 package org.mindswap.pellet.tableau.cache;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;

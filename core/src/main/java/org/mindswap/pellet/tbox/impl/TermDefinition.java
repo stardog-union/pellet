@@ -30,12 +30,12 @@
 
 package org.mindswap.pellet.tbox.impl;
 
-import aterm.AFun;
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import openllet.aterm.AFun;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 
 /**

@@ -6,7 +6,6 @@
 
 package com.clarkparsia.modularity;
 
-import aterm.ATermAppl;
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.OntologyUtils;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
@@ -23,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.PelletRuntimeException;
 import org.mindswap.pellet.taxonomy.Taxonomy;

@@ -6,10 +6,10 @@
 
 package org.mindswap.pellet.utils;
 
-import aterm.ATerm;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import openllet.aterm.ATerm;
 
 public class Comparators
 {
@@ -27,7 +27,7 @@ public class Comparators
 				return 1;
 			else
 				if (o1 == o2)
-					// aterm equality is identity equality due to maximal structure
+					// openllet.aterm equality is identity equality due to maximal structure
 					// sharing
 					return 0;
 				else

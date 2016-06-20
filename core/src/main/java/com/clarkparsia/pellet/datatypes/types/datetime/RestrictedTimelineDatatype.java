@@ -2,7 +2,6 @@ package com.clarkparsia.pellet.datatypes.types.datetime;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.EmptyRestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.Facet;
@@ -27,6 +26,7 @@ import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 

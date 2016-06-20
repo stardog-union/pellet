@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.model.AtomIConstant;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.BinaryAtom;
@@ -15,6 +14,7 @@ import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.rete.WME.EdgeDirection;
 import java.util.Iterator;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;

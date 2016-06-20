@@ -6,9 +6,9 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
-import aterm.ATermAppl;
 import java.util.Iterator;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.EdgeList;
 import org.mindswap.pellet.Individual;

@@ -6,13 +6,13 @@
 
 package org.mindswap.pellet.utils;
 
-import aterm.ATermAppl;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 

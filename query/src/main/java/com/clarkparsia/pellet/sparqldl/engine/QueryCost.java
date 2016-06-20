@@ -8,7 +8,6 @@
 
 package com.clarkparsia.pellet.sparqldl.engine;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.model.Core;
 import com.clarkparsia.pellet.sparqldl.model.NotKnownQueryAtom;
 import com.clarkparsia.pellet.sparqldl.model.QueryAtom;
@@ -18,6 +17,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
 import org.mindswap.pellet.utils.ATermUtils;

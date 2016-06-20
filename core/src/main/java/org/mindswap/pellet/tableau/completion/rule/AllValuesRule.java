@@ -6,13 +6,13 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.EdgeList;

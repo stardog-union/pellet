@@ -17,10 +17,10 @@ Tue Jan 22 15:35 CEST 2008 <lankamp@cwi.nl>
   * Fixed an overflow problem in the SAF I/O reader.
 
 Mon Jan 14 13:23 CEST 2008 <lankamp@cwi.nl>
-  * Fixed an off-by-one in the pre-condition check in aterm.pure.ATermListImpl#elementAt(int).
+  * Fixed an off-by-one in the pre-condition check in openllet.aterm.pure.ATermListImpl#elementAt(int).
 
 Tue Jan 08 9:42 CEST 2008 <lankamp@cwi.nl>
-  * Added an autodetection mechanism to the aterm.pure.PureFactory#readFile(String) method.
+  * Added an autodetection mechanism to the openllet.aterm.pure.PureFactory#readFile(String) method.
   * Fixed a stream leak bug.
 
 Thu Dec 06 9:55 CEST 2007 <lankamp@cwi.nl>
@@ -80,7 +80,7 @@ Fri Nov 17 13:40:00 CEST 2006 <lankamp@cwi.nl>
   * Added documentation for the streamable binary format.
 
 Tue Jul 25 20:32:30 CEST 2006 <martin.bravenboer@gmail.com>
-  * aterm-java.pc.in: The VERSION part of the file name of a jar
+  * openllet.aterm-java.pc.in: The VERSION part of the file name of a jar
     cannot be variable: it is read by configure by substition takes
     place, so it needs to be literal.
 
@@ -116,7 +116,7 @@ Wed May  3 13:50:13 CEST 2006 <jurgenv@cwi.nl>
  * Bumped to 1.6.3
 
 Fri Mar 10 15:48:13 CET 2006 <kooiker@cwi.nl>
- * aterm-1.6.jar:
+ * openllet.aterm-1.6.jar:
    - Add to cvs so users can build the package without
      --enable-maintainer-mode
 
@@ -140,7 +140,7 @@ Fri Jun  3 16:09:40 CEST 2005 <{jong,jurgenv@cwi.nl}>
  * test/Test1.java: Added some more parsing tests
 
 Wed May 25 16:06:13 CEST 2005 <kooiker@cwi.nl>
- * aterm/pure/*java,test/*.java:
+ * openllet.aterm/pure/*java,test/*.java:
    - Solved Eclipse warnings: unnecessary else and throws
 
 2004-12-17  pem
@@ -148,10 +148,10 @@ Wed May 25 16:06:13 CEST 2005 <kooiker@cwi.nl>
  * maintain annotations when tranforming an ATerm
 
 2004-08-06  Antoine Reilles  <tonio@bonzai>
- * aterm/pure/SingletonFactory.java: if you need a singleton PureFactory...
+ * openllet.aterm/pure/SingletonFactory.java: if you need a singleton PureFactory...
 
 2004-04-08  pem  <pem@polly.loria.fr>
- * aterm/pure/PureFactory.java: make the parseId function compatible 
+ * openllet.aterm/pure/PureFactory.java: make the parseId function compatible 
    with the C version of the ATerm library
 
 Tue Feb 10 15:27:49 CET 2004 <m336@cwi.nl>
@@ -168,7 +168,7 @@ Wed Aug 27 14:20:42 CEST 2003 <{jong,kooiker}@cwi.nl>
  * version bump to 1.5beta
  * make empty list notion private to PureFactory
  * remove any static references to 'empty'
- * throw away aterm-java-*.pkg in CLEAN_FILES, not *.pkg, as this includes
+ * throw away openllet.aterm-java-*.pkg in CLEAN_FILES, not *.pkg, as this includes
    the repository-managed source file for generating .pkg files!
 
 2003/08/14 <jurgenv@cwi.nl>
@@ -188,7 +188,7 @@ Wed Aug 27 14:20:42 CEST 2003 <{jong,kooiker}@cwi.nl>
    This makes generic function usable with apigen 
  
 2003/08/12 <{jong,kooiker}@cwi.nl>
- * aterm/Visitor.java: scrapped folding
+ * openllet.aterm/Visitor.java: scrapped folding
 
 2003/08/07 <jurgenv@cwi.nl>
  * Removed old commented out code
@@ -198,7 +198,7 @@ Wed Aug 27 14:20:42 CEST 2003 <{jong,kooiker}@cwi.nl>
  * Made internal class ATermWriter a toplevel class
    
 2003/08/07 <jurgenv@cwi.nl>
- * Made aterm.pure.ATermListImpl public such that it can be inherited from.
+ * Made openllet.aterm.pure.ATermListImpl public such that it can be inherited from.
  * Changed visibitity of init functions of ATermListImpl in order to be able to
    use them in classes that extend ATermListImpl.
  * Bumped to 1.4
@@ -237,23 +237,23 @@ Wed Aug 27 14:20:42 CEST 2003 <{jong,kooiker}@cwi.nl>
    demands that.
 
 2003-03-18 <jurgenv@cwi.nl>
- * Use shared-objects-config script to obtain last version of 
-   shared-objects
- * aterm-java-config script now prints the classpath needed to
-   USE aterm-java, including the shared-objects and JJTraveler jar files.
+ * Use openllet.shared.hash-objects-config script to obtain last version of 
+   openllet.shared.hash-objects
+ * openllet.aterm-java-config script now prints the classpath needed to
+   USE openllet.aterm-java, including the openllet.shared.hash-objects and JJTraveler jar files.
  * Added normal dependency on JJTraveler package
 
 Mon Mar 17 10:13:11 CET 2003 <jong@cwi.nl>
  * Major hack to fix unexpected dependency on jjtraveler:
-   As long as jjtraveler.jar is in aterm-java, it needs to
+   As long as jjtraveler.jar is in openllet.aterm-java, it needs to
    be installed as well, or other packages break: ToolBus
-   needs aterm-java (and by transitivity apparently it needs
+   needs openllet.aterm-java (and by transitivity apparently it needs
    jjtraveler as well) to build tifstojava
  
 2003-03-14 <jurgenv@cwi.nl>
  * Bumped to 1.2beta
- * Removed specialized visitor package from aterm implementation
- * Made aterm implementation depend on and use the JJTraveler package
+ * Removed specialized visitor package from openllet.aterm implementation
+ * Made openllet.aterm implementation depend on and use the JJTraveler package
  * TODO: make real dependency on jjtraveler package instead of jar inclusion
  
 Tue Feb 25 16:16:51 CET 2003 <jong@cwi.nl>
@@ -263,7 +263,7 @@ Tue Feb 25 16:16:51 CET 2003 <jong@cwi.nl>
   * Release 1.1 under LGPL
 
 2002-12-21    <pem@bach>
-  * aterm/pure/ATermListImpl.java: fix a bug in reverse()
+  * openllet.aterm/pure/ATermListImpl.java: fix a bug in reverse()
 
 2002-12-09   <jurgenv@cwi.nl>
   * Bumped to 1.1beta
@@ -279,44 +279,44 @@ Tue Feb 25 16:16:51 CET 2003 <jong@cwi.nl>
 
 2002-11-06  Pierre-Etienne Moreau  <pem@escher.loria.fr>
 
-  * aterm/pure/ATermApplImpl.java:
+  * openllet.aterm/pure/ATermApplImpl.java:
     - small modifitions in the hashing function
     - make(AFun,ATerm[],ATermList) is now a protected function 
     
 2002-11-04    <pem@bach>
-  * aterm/pure/PureFactory.java: 
+  * openllet.aterm/pure/PureFactory.java: 
     - initialize ATermImpl and create prototypes	
-  * aterm/pure/ATermImpl.java: 
+  * openllet.aterm/pure/ATermImpl.java: 
     - make factory a protected static slot	
     - add static initialize and getStaticFactory functions
-  * aterm/pure/ATermApplImpl.java: 
+  * openllet.aterm/pure/ATermApplImpl.java: 
     - introduce make(...) functions
     - make hashFunction a protected function
-  * aterm/pure/AFunImpl.java: 
+  * openllet.aterm/pure/AFunImpl.java: 
     - initHashCode added
     - hashFunction added	
     
 
 2002-10-31  <pem@escher.loria.fr>
-  * aterm/pure/ATermIntImpl.java: 
+  * openllet.aterm/pure/ATermIntImpl.java: 
     - initHashCode added
     - hashFunction added	
-  * aterm/pure/ATermListImpl.java: 
+  * openllet.aterm/pure/ATermListImpl.java: 
     - initHashCode added
     - hashFunction added	
-  * aterm/pure/ATermApplImpl.java: 
+  * openllet.aterm/pure/ATermApplImpl.java: 
     - initHashCode added
     - init makes a copy of the array
     - hashFunction added
     - serialize added
-  * aterm/pure/PureFactory.java: use a new hashing mechanism
+  * openllet.aterm/pure/PureFactory.java: use a new hashing mechanism
     - hashCode is computed in each ATerm implementation
     - no array allocation is needed to compute the hashCode
 
 2002-10-29    <vinju@loria.fr>
   * Added (ugly) config script in order to detect the location of this 
     package easily in the meta package.
-  * Configure.in automatically detects location of shared-objects.jar in
+  * Configure.in automatically detects location of openllet.shared.hash-objects.jar in
     order to get distcheck correct.
   * Added test subdirectory to SUBDIRS
   * Made tests that were in the test directory all active
@@ -324,11 +324,11 @@ Tue Feb 25 16:16:51 CET 2003 <jong@cwi.nl>
     distcheck correct.
 
 2002-10-20    <pem@bach>
-  * aterm/pure/ATermListImpl.java: 
+  * openllet.aterm/pure/ATermListImpl.java: 
     - fix a bug in match:	
       makelist().match(<list>) should return the empty ATermList	
-  * aterm/ATermFactory.java: 
-  * aterm/pure/PureFactory.java: 
+  * openllet.aterm/ATermFactory.java: 
+  * openllet.aterm/pure/PureFactory.java: 
     - makeAppl(AFun fun, ATermList args) has been renamed into
       makeApplList(AFun fun, ATermList args) to avoid ambiguities
       The semantic should not depend on the static type
@@ -337,11 +337,11 @@ Tue Feb 25 16:16:51 CET 2003 <jong@cwi.nl>
       makeAppl(fun,l1) should be equal to makeAppl(fun,l2)	
 	
 2002-10-19    <pem@bach>
-  * aterm/pure/PureFactory.java: 
+  * openllet.aterm/pure/PureFactory.java: 
     - modify hashAppl for reducing hashing-collisions 
     - introduce hashApplNoCopy for avoiding copy of arrays
     - introduce static arrays for reducing allocations
 
 2002-10-?? <{jong,olivierp}@cwi.nl>
     - Made separate package for java ATerm library
-    - Refactored design to use shared-object-factory
+    - Refactored design to use openllet.shared.hash-object-factory

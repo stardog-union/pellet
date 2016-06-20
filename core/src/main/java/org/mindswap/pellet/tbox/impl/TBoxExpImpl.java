@@ -10,9 +10,6 @@ package org.mindswap.pellet.tbox.impl;
 
 import static com.clarkparsia.pellet.utils.TermFactory.TOP;
 
-import aterm.AFun;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import com.clarkparsia.pellet.utils.MultiMapUtils;
 import java.io.IOException;
@@ -26,6 +23,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.AFun;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;

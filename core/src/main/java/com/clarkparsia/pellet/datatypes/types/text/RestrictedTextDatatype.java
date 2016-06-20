@@ -1,6 +1,5 @@
 package com.clarkparsia.pellet.datatypes.types.text;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetException;
@@ -13,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.SetUtils;
 

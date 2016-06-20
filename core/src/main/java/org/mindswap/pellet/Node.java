@@ -30,9 +30,6 @@
 
 package org.mindswap.pellet;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,6 +44,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;

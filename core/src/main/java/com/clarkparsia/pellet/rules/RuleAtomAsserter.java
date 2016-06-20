@@ -12,7 +12,6 @@ import static com.clarkparsia.pellet.utils.TermFactory.all;
 import static com.clarkparsia.pellet.utils.TermFactory.not;
 import static com.clarkparsia.pellet.utils.TermFactory.value;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
 import com.clarkparsia.pellet.rules.model.ClassAtom;
 import com.clarkparsia.pellet.rules.model.DataRangeAtom;
@@ -22,6 +21,7 @@ import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Individual;

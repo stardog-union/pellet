@@ -8,13 +8,13 @@ package org.mindswap.pellet.jena;
 
 import static org.mindswap.pellet.jena.JenaUtils.makeGraphNode;
 
-import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.Model;

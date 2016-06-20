@@ -12,7 +12,7 @@ package com.clarkparsia.pellet.datatypes;
 
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.Namespaces;
 
 /**

@@ -2,12 +2,12 @@ package com.clarkparsia.pellet.datatypes;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;

@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.impl;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.IncrementalChangeTracker;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import openllet.aterm.ATermAppl;
 import java.util.Set;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DefaultEdge;
@@ -149,7 +149,7 @@ public class SimpleIncrementalChangeTracker implements IncrementalChangeTracker
 	 * (non-Javadoc)
 	 *
 	 * @see com.clarkparsia.pellet.IncrementalChangeTracker#addDeletedType(org.mindswap.pellet.Node,
-	 *      aterm.ATermAppl)
+	 *      openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public boolean addDeletedType(final Node n, final ATermAppl type)

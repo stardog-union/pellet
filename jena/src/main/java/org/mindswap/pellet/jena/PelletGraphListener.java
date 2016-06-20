@@ -6,12 +6,12 @@
 
 package org.mindswap.pellet.jena;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.GraphListener;
 import org.apache.jena.graph.Node;

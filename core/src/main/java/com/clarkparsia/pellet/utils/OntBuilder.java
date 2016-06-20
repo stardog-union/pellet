@@ -1,9 +1,5 @@
 package com.clarkparsia.pellet.utils;
 
-import aterm.AFun;
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.rules.model.AtomDConstant;
 import com.clarkparsia.pellet.rules.model.AtomDObject;
 import com.clarkparsia.pellet.rules.model.AtomDVariable;
@@ -22,6 +18,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import openllet.aterm.AFun;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.output.ATermBaseVisitor;

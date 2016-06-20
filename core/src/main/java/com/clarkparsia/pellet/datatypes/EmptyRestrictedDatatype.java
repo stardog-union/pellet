@@ -1,7 +1,7 @@
 package com.clarkparsia.pellet.datatypes;
 
-import aterm.ATermAppl;
 import java.util.Collection;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

@@ -21,7 +21,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  * Title: Abstract Premised Test Case
  * </p>
  * <p>
- * Description: Common base implementation shared by consistency, positive entailment, and negative entailment tests.
+ * Description: Common base implementation openllet.shared.hash by consistency, positive entailment, and negative entailment tests.
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009

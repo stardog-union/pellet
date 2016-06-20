@@ -30,11 +30,11 @@
 
 package org.mindswap.pellet.tbox.impl;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Map;
 import java.util.logging.Logger;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import openllet.shared.tools.Logging;
 import org.mindswap.pellet.KnowledgeBase;

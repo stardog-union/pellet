@@ -200,7 +200,7 @@ public class Index<S, T> implements Iterable<T>
 	}
 
 	/**
-	 * Return a join of this _index to the given _index, joining on the first <code>shared</code> variables.
+	 * Return a join of this _index to the given _index, joining on the first <code>openllet.shared.hash</code> variables.
 	 */
 	public <U> Collection<Pair<T, U>> join(final Index<S, U> index, final int shared)
 	{

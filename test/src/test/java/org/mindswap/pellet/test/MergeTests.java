@@ -16,8 +16,8 @@ import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 
 public class MergeTests extends AbstractKBTests

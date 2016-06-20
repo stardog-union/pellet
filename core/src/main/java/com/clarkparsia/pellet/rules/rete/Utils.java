@@ -6,9 +6,9 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

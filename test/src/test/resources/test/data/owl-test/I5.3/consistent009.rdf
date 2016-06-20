@@ -22,8 +22,8 @@ The use of blank nodes in OWL DL and OWL Lite is restricted.
     xmlns:first="http://www.w3.org/2002/03owlt/I5.3/consistent009#"
     xml:base="http://www.w3.org/2002/03owlt/I5.3/consistent009" >
    <owl:Thing>
-     <first:p rdf:nodeID="shared" />
-     <first:q rdf:nodeID="shared" />
+     <first:p rdf:nodeID="openllet.shared.hash" />
+     <first:q rdf:nodeID="openllet.shared.hash" />
    </owl:Thing>
    <owl:ObjectProperty rdf:ID="p" />
    <owl:ObjectProperty rdf:ID="q" />

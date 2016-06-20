@@ -1,9 +1,5 @@
 package com.clarkparsia.pellet.owlapi;
 
-import aterm.ATermAppl;
-import com.intrinsec.owlapi.facet.FacetFactoryOWL;
-import com.intrinsec.owlapi.facet.FacetManagerOWL;
-import com.intrinsec.owlapi.facet.FacetOntologyOWL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import openllet.aterm.ATermAppl;
+import openllet.owlapi.facet.FacetFactoryOWL;
+import openllet.owlapi.facet.FacetManagerOWL;
+import openllet.owlapi.facet.FacetOntologyOWL;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;

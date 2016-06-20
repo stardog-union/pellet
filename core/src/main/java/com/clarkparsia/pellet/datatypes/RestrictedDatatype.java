@@ -1,8 +1,8 @@
 package com.clarkparsia.pellet.datatypes;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetException;
 import java.util.Collection;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

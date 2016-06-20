@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.rules;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
@@ -24,6 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;

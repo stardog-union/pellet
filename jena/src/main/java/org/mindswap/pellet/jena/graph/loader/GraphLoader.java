@@ -6,8 +6,8 @@
 
 package org.mindswap.pellet.jena.graph.loader;
 
-import aterm.ATermAppl;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
 import org.mindswap.pellet.KnowledgeBase;

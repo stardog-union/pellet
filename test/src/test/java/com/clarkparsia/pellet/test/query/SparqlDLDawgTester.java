@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.test.query;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.jena.JenaIOUtils;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLResultSet;
@@ -25,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.QueryFactory;

@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.ContinuousRulesStrategy;
 import com.clarkparsia.pellet.rules.PartialBinding;
 import com.clarkparsia.pellet.rules.VariableBinding;
@@ -19,6 +18,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Individual;

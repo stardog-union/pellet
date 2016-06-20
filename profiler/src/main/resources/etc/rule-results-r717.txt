@@ -10,7 +10,7 @@ Parsing (16) files...................done.
 After Parse
   0.53 -> <INPUT> : KnowledgeBase, refcount=8
     0.51 (96.9%) -> KnowledgeBase#factory : PureFactory, refcount=102
-      0.26 (49.4%) -> SharedObjectFactory#table children: 94 avg: 119.69148936170212 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+      0.26 (49.4%) -> SharedObjectFactory#table children: 94 avg: 119.69148936170212 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
       0.25 (47.4%) -> SharedObjectFactory#tableSize : int[]
     0.01 (2.5%) -> KnowledgeBase#abox : ABox
       0.01 (2.4%) -> ABox#dtReasoner : DatatypeReasoner
@@ -33,7 +33,7 @@ After Load
       2.69 (6.3%) -> ABox#nodeList : ArrayList
         2.69 (6.3%) -> ArrayList#elementData children: 20150 avg: 131.95086848635236 <shell: Object[], length=39224> 0.1496429443359375
     11.44 (26.9%) -> KnowledgeBase#factory : PureFactory, refcount=112661
-      11.18 (26.3%) -> SharedObjectFactory#table children: 63151 avg: 181.56173298918466 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+      11.18 (26.3%) -> SharedObjectFactory#table children: 63151 avg: 181.56173298918466 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
     0.52 (1.2%) -> KnowledgeBase#individuals : HashSet
 
  INFO [main] (ABox.java:1582) - ABox consistency for 0 individuals
@@ -53,7 +53,7 @@ After Consistency
       2.70 (5.5%) -> ABox#nodeList : ArrayList
         2.70 (5.5%) -> ArrayList#elementData children: 20253 avg: 132.24455636202043 <shell: Object[], length=39224> 0.1496429443359375
     11.51 (23.5%) -> KnowledgeBase#factory : PureFactory, refcount=113765
-      11.25 (23.0%) -> SharedObjectFactory#table children: 63197 avg: 182.59453771539788 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+      11.25 (23.0%) -> SharedObjectFactory#table children: 63197 avg: 182.59453771539788 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
     0.52 (1.1%) -> KnowledgeBase#individuals : HashSet
 
  INFO [main] (CDOptimizedTaxonomyBuilder.java:133) - Classes: 45 Individuals: 17174
@@ -251,7 +251,7 @@ After Classify
       2.70 (5.5%) -> ABox#nodeList : ArrayList
         2.70 (5.5%) -> ArrayList#elementData children: 20256 avg: 132.2435821484992 <shell: Object[], length=39224> 0.1496429443359375
     11.50 (23.4%) -> KnowledgeBase#factory : PureFactory, refcount=113776
-      11.25 (22.9%) -> SharedObjectFactory#table children: 63199 avg: 182.55130619155366 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+      11.25 (22.9%) -> SharedObjectFactory#table children: 63199 avg: 182.55130619155366 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
     0.52 (1.1%) -> KnowledgeBase#individuals : HashSet
 
  INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 15 individuals [http://www.Department9.University0.edu/FullProfessor0, http://www.Department1.University0.edu/FullProfessor4, http://www.Department3.University0.edu/FullProfessor4, http://www.Department7.University0.edu/FullProfessor1, http://www.Department5.University0.edu/FullProfessor4, http://www.Department0.University0.edu/FullProfessor7, http://www.Department2.University0.edu/FullProfessor4, http://www.Department10.University0.edu/FullProfessor5, http://www.Department6.University0.edu/FullProfessor1, http://www.Department14.University0.edu/FullProfessor6, http://www.Department12.University0.edu/FullProfessor2, http://www.Department11.University0.edu/FullProfessor1, http://www.Department8.University0.edu/FullProfessor3, http://www.Department4.University0.edu/FullProfessor3, http://www.Department13.University0.edu/FullProfessor7]
@@ -323,7 +323,7 @@ After Realize
       2.70 (3.7%) -> ABox#nodeList : ArrayList
         2.70 (3.7%) -> ArrayList#elementData children: 20262 avg: 132.22218931990918 <shell: Object[], length=39224> 0.1496429443359375
     10.69 (14.8%) -> KnowledgeBase#factory : PureFactory, refcount=99581
-      10.44 (14.5%) -> SharedObjectFactory#table children: 63202 avg: 169.10507578874086 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+      10.44 (14.5%) -> SharedObjectFactory#table children: 63202 avg: 169.10507578874086 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
 
 
 
@@ -340,7 +340,7 @@ Parsing (51) files......................................................done.
 After Parse
   13.29 -> <INPUT> : KnowledgeBase, refcount=8
     13.28 (99.9%) -> KnowledgeBase#factory : PureFactory, refcount=99581
-      13.03 (98.0%) -> SharedObjectFactory#table children: 63202 avg: 211.9666308028227 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+      13.03 (98.0%) -> SharedObjectFactory#table children: 63202 avg: 211.9666308028227 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
       0.25 (1.9%) -> SharedObjectFactory#tableSize : int[]
 
  INFO [main] (KnowledgeBase.java:1487) - Expressivity: SHI(D), Classes: 43 Properties: 32 Individuals: 55664 Strategy: ContinuousRulesStrategy
@@ -361,7 +361,7 @@ After Load
       2.57 (1.9%) -> ABox#nodeList : ArrayList
         2.57 (1.9%) -> ArrayList#elementData children: 34735 avg: 67.28138764934504 <shell: Object[], length=88256> 0.3366851806640625
     39.62 (29.6%) -> KnowledgeBase#factory : PureFactory, refcount=342711
-      38.62 (28.9%) -> SharedObjectFactory#table children: 199810 avg: 197.4019618637706 <shell: shared.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
+      38.62 (28.9%) -> SharedObjectFactory#table children: 199810 avg: 197.4019618637706 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
     1.77 (1.3%) -> KnowledgeBase#individuals : HashSet
 
  INFO [main] (ABox.java:1582) - ABox consistency for 0 individuals
@@ -381,7 +381,7 @@ After Consistency
       2.62 (1.7%) -> ABox#nodeList : ArrayList
         2.62 (1.7%) -> ArrayList#elementData children: 35416 avg: 67.49339281680597 <shell: Object[], length=88256> 0.3366851806640625
     39.80 (25.6%) -> KnowledgeBase#factory : PureFactory, refcount=345261
-      38.80 (25.0%) -> SharedObjectFactory#table children: 200408 avg: 197.7613718015249 <shell: shared.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
+      38.80 (25.0%) -> SharedObjectFactory#table children: 200408 avg: 197.7613718015249 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
     1.77 (1.1%) -> KnowledgeBase#individuals : HashSet
 
  INFO [main] (CDOptimizedTaxonomyBuilder.java:133) - Classes: 45 Individuals: 55664
@@ -579,7 +579,7 @@ After Classify
       2.62 (1.7%) -> ABox#nodeList : ArrayList
         2.62 (1.7%) -> ArrayList#elementData children: 35420 avg: 67.50361377752682 <shell: Object[], length=88256> 0.3366851806640625
     39.80 (25.6%) -> KnowledgeBase#factory : PureFactory, refcount=345269
-      38.80 (24.9%) -> SharedObjectFactory#table children: 200418 avg: 197.75238252053208 <shell: shared.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
+      38.80 (24.9%) -> SharedObjectFactory#table children: 200418 avg: 197.75238252053208 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
     1.77 (1.1%) -> KnowledgeBase#individuals : HashSet
 
  INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director) for 50 individuals [http://www.Department9.University0.edu/FullProfessor0, http://www.Department8.University0.edu/FullProfessor3, http://www.Department6.University0.edu/FullProfessor1, http://www.Department10.University1.edu/FullProfessor6, http://www.Department15.University1.edu/FullProfessor4, http://www.Department5.University0.edu/FullProfessor4, http://www.Department14.University0.edu/FullProfessor6, http://www.Department3.University2.edu/FullProfessor5, http://www.Department1.University0.edu/FullProfessor4, http://www.Department14.University2.edu/FullProfessor6, http://www.Department1.University2.edu/FullProfessor5, http://www.Department0.University1.edu/FullProfessor5, http://www.Department0.University0.edu/FullProfessor7, http://www.Department2.University0.edu/FullProfessor4, http://www.Department3.University1.edu/FullProfessor2, http://www.Department0.University2.edu/FullProfessor7, http://www.Department10.University2.edu/FullProfessor1, http://www.Department15.University2.edu/FullProfessor2, http://www.Department13.University1.edu/FullProfessor4, http://www.Department9.University2.edu/FullProfessor0, http://www.Department10.University0.edu/FullProfessor5, http://www.Department16.University1.edu/FullProfessor9, http://www.Department1.University1.edu/FullProfessor7, http://www.Department4.University0.edu/FullProfessor3, http://www.Department4.University2.edu/FullProfessor0, http://www.Department7.University2.edu/FullProfessor2, http://www.Department17.University1.edu/FullProfessor6, http://www.Department2.University1.edu/FullProfessor1, http://www.Department5.University1.edu/FullProfessor0, http://www.Department2.University2.edu/FullProfessor5, http://www.Department14.University1.edu/FullProfessor0, http://www.Department4.University1.edu/FullProfessor2, http://www.Department11.University1.edu/FullProfessor5, http://www.Department7.University1.edu/FullProfessor1, http://www.Department18.University1.edu/FullProfessor1, http://www.Department11.University2.edu/FullProfessor6, http://www.Department12.University0.edu/FullProfessor2, http://www.Department3.University0.edu/FullProfessor4, http://www.Department5.University2.edu/FullProfessor8, http://www.Department13.University2.edu/FullProfessor7, http://www.Department6.University1.edu/FullProfessor4, http://www.Department13.University0.edu/FullProfessor7, http://www.Department7.University0.edu/FullProfessor1, http://www.Department12.University1.edu/FullProfessor5, http://www.Department8.University1.edu/FullProfessor0, http://www.Department9.University1.edu/FullProfessor6, http://www.Department6.University2.edu/FullProfessor1, http://www.Department12.University2.edu/FullProfessor4, http://www.Department11.University0.edu/FullProfessor1, http://www.Department8.University2.edu/FullProfessor1]
@@ -594,7 +594,7 @@ After Realize
       2.62 (1.6%) -> ABox#nodeList : ArrayList
         2.62 (1.6%) -> ArrayList#elementData children: 35420 avg: 67.50894974590626 <shell: Object[], length=88256> 0.3366851806640625
     39.69 (24.9%) -> KnowledgeBase#factory : PureFactory, refcount=343452
-      38.69 (24.3%) -> SharedObjectFactory#table children: 200418 avg: 197.20788052969294 <shell: shared.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
+      38.69 (24.3%) -> SharedObjectFactory#table children: 200418 avg: 197.20788052969294 <shell: openllet.shared.hash.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
     1.77 (1.1%) -> KnowledgeBase#individuals : HashSet
 
 

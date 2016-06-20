@@ -23,11 +23,11 @@
 
 package org.mindswap.pellet.tableau.completion.queue;
 
-import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Literal;

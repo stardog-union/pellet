@@ -6,8 +6,8 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import aterm.ATermAppl;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.DependencySet;
 
 /**

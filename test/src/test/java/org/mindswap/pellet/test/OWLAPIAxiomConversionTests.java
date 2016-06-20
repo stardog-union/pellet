@@ -11,13 +11,13 @@ package org.mindswap.pellet.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import aterm.ATermAppl;
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.pellet.owlapi.AxiomConverter;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 import java.util.Set;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;

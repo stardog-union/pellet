@@ -15,10 +15,10 @@ import static com.clarkparsia.pellet.utils.TermFactory.TOP_OBJECT_PROPERTY;
 import static com.clarkparsia.pellet.utils.TermFactory.literal;
 import static com.clarkparsia.pellet.utils.TermFactory.var;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 import org.mindswap.pellet.utils.Namespaces;
 

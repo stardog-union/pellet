@@ -30,10 +30,10 @@
 
 package org.mindswap.pellet.jena;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import java.util.Iterator;
 import java.util.Map;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.TypeMapper;
 import org.apache.jena.datatypes.xsd.XSDDatatype;

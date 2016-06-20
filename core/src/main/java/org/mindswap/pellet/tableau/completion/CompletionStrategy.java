@@ -8,9 +8,6 @@ package org.mindswap.pellet.tableau.completion;
 
 import static com.clarkparsia.pellet.utils.TermFactory.TOP_OBJECT_PROPERTY;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 import com.clarkparsia.pellet.rules.model.DifferentIndividualsAtom;
 import com.clarkparsia.pellet.rules.model.Rule;
@@ -25,6 +22,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Clash;

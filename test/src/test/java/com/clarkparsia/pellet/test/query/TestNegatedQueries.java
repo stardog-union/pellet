@@ -14,9 +14,9 @@ import static com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory.TypeAtom;
 import static com.clarkparsia.pellet.utils.TermFactory.TOP;
 import static com.clarkparsia.pellet.utils.TermFactory.not;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.utils.TermFactory;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 
 /**

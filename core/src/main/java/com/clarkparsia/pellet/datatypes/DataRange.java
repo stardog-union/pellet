@@ -7,7 +7,7 @@ import java.util.Iterator;
  * Title: Data Range
  * </p>
  * <p>
- * Description: Data range interface shared by all _data ranges (restricted datatypes, enumerations, etc.)
+ * Description: Data range interface openllet.shared.hash by all _data ranges (restricted datatypes, enumerations, etc.)
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009

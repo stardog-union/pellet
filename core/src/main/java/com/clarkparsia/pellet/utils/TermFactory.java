@@ -8,11 +8,11 @@
 
 package com.clarkparsia.pellet.utils;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.datatypes.Facet;
 import java.net.URI;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.utils.ATermUtils;
 
 /**

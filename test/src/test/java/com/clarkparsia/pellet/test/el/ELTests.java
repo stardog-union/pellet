@@ -17,13 +17,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.el.SimplifiedELClassifier;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.Properties;
 import java.util.logging.Logger;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.junit.BeforeClass;
 import org.junit.Test;

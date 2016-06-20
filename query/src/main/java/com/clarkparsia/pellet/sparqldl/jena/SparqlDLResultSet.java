@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.sparqldl.jena;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.model.QueryParameters;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
@@ -15,6 +14,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.graph.Node;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSetRewindable;

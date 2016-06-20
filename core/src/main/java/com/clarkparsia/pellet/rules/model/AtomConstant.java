@@ -6,7 +6,7 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>
@@ -46,7 +46,7 @@ public abstract class AtomConstant implements AtomObject
 	}
 
 	/**
-	 * Returns the aterm _value this constant was initialized with.
+	 * Returns the openllet.aterm _value this constant was initialized with.
 	 */
 	public ATermAppl getValue()
 	{

@@ -6,8 +6,8 @@
 
 package com.clarkparsia.pellet;
 
-import aterm.ATermAppl;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

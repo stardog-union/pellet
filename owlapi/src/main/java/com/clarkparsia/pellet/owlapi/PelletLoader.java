@@ -30,8 +30,6 @@
 
 package com.clarkparsia.pellet.owlapi;
 
-import aterm.ATermAppl;
-import com.intrinsec.owlapi.facet.FacetManagerOWL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,6 +40,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import openllet.aterm.ATermAppl;
+import openllet.owlapi.facet.FacetManagerOWL;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;

@@ -30,9 +30,9 @@
 
 package org.mindswap.pellet.output;
 
-import aterm.ATermAppl;
 import java.io.PrintWriter;
 import java.io.Writer;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.URIUtils;
 
 /**
@@ -72,7 +72,7 @@ public abstract class ATermBaseRenderer extends ATermBaseVisitor implements ATer
 	}
 
 	/* (non-Javadoc)
-	 * @see org.mindswap.pellet.utils.ATermVisitor#visitTerm(aterm.ATermAppl)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitTerm(openllet.aterm.ATermAppl)
 	 */
 	@Override
 	public void visitTerm(final ATermAppl term)

@@ -1,6 +1,5 @@
 package com.clarkparsia.pellet.datatypes;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetException;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
@@ -8,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Literal;
 
 /**

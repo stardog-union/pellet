@@ -291,7 +291,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 	}
 
 	/**
-	 * Returns if shared modules optimization is on.
+	 * Returns if openllet.shared.hash modules optimization is on.
 	 */
 	public boolean isOptimizeForSharedModules()
 	{
@@ -299,10 +299,10 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 	}
 
 	/**
-	 * Sets the the option to optimize for shared modules during module extraction. This option improves the performance of axiom-based module extractor when
-	 * there are many shared modules in the ontology. This option seems to improve the performance of modularization for NCI thesaurus significantly but has
+	 * Sets the the option to optimize for openllet.shared.hash modules during module extraction. This option improves the performance of axiom-based module extractor when
+	 * there are many openllet.shared.hash modules in the ontology. This option seems to improve the performance of modularization for NCI thesaurus significantly but has
 	 * slight overhead for some other ontologies (it is not clear if the overhead would more dramatic in other untested cases). This option has no effect on
-	 * graph-based extractor which by default includes optimization for shared modules that does not have negative impact on any ontology.
+	 * graph-based extractor which by default includes optimization for openllet.shared.hash modules that does not have negative impact on any ontology.
 	 */
 	public void setOptimizeForSharedModules(final boolean optimizeForSharedModules)
 	{

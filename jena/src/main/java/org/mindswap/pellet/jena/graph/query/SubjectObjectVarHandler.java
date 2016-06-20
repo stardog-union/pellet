@@ -6,9 +6,9 @@
 
 package org.mindswap.pellet.jena.graph.query;
 
-import aterm.ATermAppl;
 import java.util.Collection;
 import java.util.Iterator;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.util.iterator.ExtendedIterator;

@@ -6,10 +6,10 @@
 
 package org.mindswap.pellet.test.utils;
 
-import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Role;

@@ -34,9 +34,6 @@
 
 package org.mindswap.pellet;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.Facet;
 import com.clarkparsia.pellet.datatypes.types.real.XSDInteger;
 import java.io.FileReader;
@@ -54,6 +51,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.SetUtils;

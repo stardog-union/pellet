@@ -6,7 +6,7 @@
 
 package org.mindswap.pellet.tableau.cache;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.Individual;
 
 /**

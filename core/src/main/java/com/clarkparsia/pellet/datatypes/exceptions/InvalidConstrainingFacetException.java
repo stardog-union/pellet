@@ -2,7 +2,7 @@ package com.clarkparsia.pellet.datatypes.exceptions;
 
 import static java.lang.String.format;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

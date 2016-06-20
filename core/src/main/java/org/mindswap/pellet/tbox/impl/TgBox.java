@@ -30,9 +30,6 @@
 
 package org.mindswap.pellet.tbox.impl;
 
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +41,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.PelletOptions;

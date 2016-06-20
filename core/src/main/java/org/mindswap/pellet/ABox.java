@@ -32,9 +32,6 @@ package org.mindswap.pellet;
 
 import static java.lang.String.format;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.BranchEffectTracker;
 import com.clarkparsia.pellet.IncrementalChangeTracker;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
@@ -59,6 +56,9 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.branch.Branch;

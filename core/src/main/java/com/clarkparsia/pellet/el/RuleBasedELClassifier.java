@@ -6,14 +6,14 @@
 
 package com.clarkparsia.pellet.el;
 
-import aterm.AFun;
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
+import openllet.aterm.AFun;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.taxonomy.CDOptimizedTaxonomyBuilder;

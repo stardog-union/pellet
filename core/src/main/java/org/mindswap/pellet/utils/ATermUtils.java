@@ -30,13 +30,6 @@
 
 package org.mindswap.pellet.utils;
 
-import aterm.AFun;
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermFactory;
-import aterm.ATermInt;
-import aterm.ATermList;
-import aterm.pure.PureFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,6 +38,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import openllet.aterm.AFun;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermFactory;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
+import openllet.aterm.pure.PureFactory;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.output.ATermManchesterSyntaxRenderer;

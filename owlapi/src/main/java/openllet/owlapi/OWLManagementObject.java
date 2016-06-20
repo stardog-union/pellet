@@ -1,12 +1,12 @@
 package openllet.owlapi;
 
-import com.intrinsec.owlapi.facet.FacetFactoryOWL;
-import com.intrinsec.owlapi.facet.FacetManagerOWL;
-import com.intrinsec.owlapi.facet.FacetOntologyOWL;
-import com.intrinsec.owlapi.facet.FacetReasonerOWL;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
+import openllet.owlapi.facet.FacetFactoryOWL;
+import openllet.owlapi.facet.FacetManagerOWL;
+import openllet.owlapi.facet.FacetOntologyOWL;
+import openllet.owlapi.facet.FacetReasonerOWL;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAxiom;

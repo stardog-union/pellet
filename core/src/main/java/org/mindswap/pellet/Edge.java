@@ -6,7 +6,7 @@
 
 package org.mindswap.pellet;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

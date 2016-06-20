@@ -6,8 +6,8 @@
 
 package org.mindswap.pellet.test.utils;
 
-import aterm.ATermAppl;
 import junit.framework.TestCase;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.tableau.cache.CachedNode;
 import org.mindswap.pellet.tableau.cache.CachedNodeFactory;

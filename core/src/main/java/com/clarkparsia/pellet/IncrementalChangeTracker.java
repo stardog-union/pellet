@@ -6,10 +6,10 @@
 
 package com.clarkparsia.pellet;
 
-import aterm.ATermAppl;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;

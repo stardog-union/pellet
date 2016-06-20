@@ -6,9 +6,6 @@
 
 package org.mindswap.pellet.tbox.impl;
 
-import aterm.AFun;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.Facet;
 import com.clarkparsia.pellet.rules.model.AtomDConstant;
 import com.clarkparsia.pellet.rules.model.AtomDObject;
@@ -30,6 +27,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.AFun;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;

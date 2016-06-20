@@ -2,12 +2,12 @@ package com.clarkparsia.pellet.datatypes.types.datetime;
 
 import static com.clarkparsia.pellet.datatypes.types.datetime.RestrictedTimelineDatatype.getDatatypeFactory;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.AbstractBaseDatatype;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 
 public abstract class AbstractTimelineDatatype extends AbstractBaseDatatype<XMLGregorianCalendar>

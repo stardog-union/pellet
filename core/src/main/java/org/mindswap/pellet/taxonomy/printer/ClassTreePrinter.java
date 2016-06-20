@@ -30,10 +30,10 @@
 
 package org.mindswap.pellet.taxonomy.printer;
 
-import aterm.ATermAppl;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.QNameProvider;
 import org.mindswap.pellet.utils.TaxonomyUtils;

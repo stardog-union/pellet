@@ -10,11 +10,11 @@ package com.clarkparsia.pellet.owlapi;
 
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
-import com.intrinsec.owlapi.facet.FacetManagerOWL;
-import com.intrinsec.owlapi.facet.FacetOntologyOWL;
-import com.intrinsec.owlapi.facet.FacetReasonerOWL;
 import java.util.Set;
 import java.util.stream.Stream;
+import openllet.owlapi.facet.FacetManagerOWL;
+import openllet.owlapi.facet.FacetOntologyOWL;
+import openllet.owlapi.facet.FacetReasonerOWL;
 import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;

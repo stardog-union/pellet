@@ -6,8 +6,8 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
-import aterm.ATermAppl;
 import java.util.Collection;
+import openllet.aterm.ATermAppl;
 
 /**
  * <p>

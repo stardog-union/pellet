@@ -8,10 +8,10 @@ package org.mindswap.pellet.jena.graph.query;
 
 import static org.mindswap.pellet.utils.iterator.IteratorUtils.flatten;
 
-import aterm.ATermAppl;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import openllet.aterm.ATermAppl;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.util.iterator.ExtendedIterator;

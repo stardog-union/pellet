@@ -6,7 +6,7 @@
 
 package com.clarkparsia.pellet.expressivity;
 
-import aterm.ATermAppl;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 
 /**
@@ -43,7 +43,7 @@ public abstract class ProfileBasedExpressivityChecker
 	public abstract boolean compute(Expressivity expressivity);
 
 	/**
-	 * Update the given {@link com.clarkparsia.pellet.expressivity.Expressivity} by adding the new @{link aterm.ATermAppl}.
+	 * Update the given {@link com.clarkparsia.pellet.expressivity.Expressivity} by adding the new @{link openllet.aterm.ATermAppl}.
 	 *
 	 * @return <code>true</code> if the new expressivity is within the profile defined by the implementation, <code>false</code> otherwise.
 	 */

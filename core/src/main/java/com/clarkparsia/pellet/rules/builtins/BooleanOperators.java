@@ -8,9 +8,9 @@
 
 package com.clarkparsia.pellet.rules.builtins;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.Arrays;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 

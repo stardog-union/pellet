@@ -49,7 +49,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 
-import aterm.ATermAppl;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.SWRL;
@@ -67,6 +66,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import junit.framework.JUnit4TestAdapter;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.junit.Ignore;
 import org.junit.Test;

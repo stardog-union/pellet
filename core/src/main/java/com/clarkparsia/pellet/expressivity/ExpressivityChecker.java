@@ -6,8 +6,8 @@
 
 package com.clarkparsia.pellet.expressivity;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.el.ELExpressivityChecker;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 
@@ -76,7 +76,7 @@ public class ExpressivityChecker
 	}
 
 	/**
-	 * Added for incremental reasoning. Given an aterm corresponding to an _individual and concept, the expressivity is updated accordingly.
+	 * Added for incremental reasoning. Given an openllet.aterm corresponding to an _individual and concept, the expressivity is updated accordingly.
 	 */
 	public void updateWithIndividual(final ATermAppl i, final ATermAppl concept)
 	{

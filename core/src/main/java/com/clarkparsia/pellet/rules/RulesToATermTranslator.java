@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.rules;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.rules.model.AtomDConstant;
 import com.clarkparsia.pellet.rules.model.AtomDObject;
 import com.clarkparsia.pellet.rules.model.AtomDVariable;
@@ -24,6 +23,7 @@ import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
+import openllet.aterm.ATermAppl;
 import org.mindswap.pellet.utils.ATermUtils;
 
 /**

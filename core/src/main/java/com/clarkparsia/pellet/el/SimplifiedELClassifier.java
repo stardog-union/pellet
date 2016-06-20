@@ -6,9 +6,6 @@
 
 package com.clarkparsia.pellet.el;
 
-import aterm.AFun;
-import aterm.ATermAppl;
-import aterm.ATermList;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.Arrays;
@@ -22,6 +19,9 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.AFun;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.taxonomy.CDOptimizedTaxonomyBuilder;

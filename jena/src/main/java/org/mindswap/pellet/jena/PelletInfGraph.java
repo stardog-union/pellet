@@ -30,14 +30,14 @@
 
 package org.mindswap.pellet.jena;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.OntBuilder;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.apache.jena.graph.Factory;
 import org.apache.jena.graph.Graph;

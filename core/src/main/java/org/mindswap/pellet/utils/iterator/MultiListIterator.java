@@ -6,12 +6,12 @@
 
 package org.mindswap.pellet.utils.iterator;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermList;
 
 public class MultiListIterator implements Iterator<ATermAppl>
 {

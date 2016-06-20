@@ -6,10 +6,6 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.exceptions.DatatypeReasonerException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +13,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermInt;
+import openllet.aterm.ATermList;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Individual;

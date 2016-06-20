@@ -17,7 +17,6 @@ import static com.clarkparsia.pellet.utils.TermFactory.not;
 import static org.junit.Assert.assertEquals;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.Query.VarType;
@@ -27,6 +26,7 @@ import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
 import java.util.ArrayList;
 import java.util.List;
+import openllet.aterm.ATermAppl;
 import org.junit.Test;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.utils.ATermUtils;

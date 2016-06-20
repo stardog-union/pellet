@@ -39,10 +39,6 @@ import static com.clarkparsia.pellet.utils.TermFactory.and;
 import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static java.lang.String.format;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermFactory;
-import aterm.ATermList;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
@@ -82,6 +78,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import openllet.aterm.ATerm;
+import openllet.aterm.ATermAppl;
+import openllet.aterm.ATermFactory;
+import openllet.aterm.ATermList;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.PelletOptions.InstanceRetrievalMethod;
 import org.mindswap.pellet.exceptions.InconsistentOntologyException;
@@ -512,7 +512,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Create a KB based on an existing one. New KB has a copy of the ABox but TBox and RBox is shared between two.
+	 * Create a KB based on an existing one. New KB has a copy of the ABox but TBox and RBox is openllet.shared.hash between two.
 	 *
 	 * @param kb
 	 */

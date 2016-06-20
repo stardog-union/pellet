@@ -1467,7 +1467,7 @@
     <owl:Class rdf:about="&resource;SIO_000000">
         <rdfs:label>entity</rdfs:label>
         <dc:description
-            >An entity is either a class that describes the attributes shared by instances (should they exist) or is an individual that exists in spacetime.</dc:description>
+            >An entity is either a class that describes the attributes openllet.shared.hash by instances (should they exist) or is an individual that exists in spacetime.</dc:description>
     </owl:Class>
     
 

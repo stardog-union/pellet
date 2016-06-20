@@ -12,7 +12,6 @@ import static com.clarkparsia.pellet.utils.TermFactory.hasValue;
 import static com.clarkparsia.pellet.utils.TermFactory.inv;
 import static com.clarkparsia.pellet.utils.TermFactory.not;
 
-import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.model.CoreNewImpl;
 import com.clarkparsia.pellet.sparqldl.model.NotKnownQueryAtom;
 import com.clarkparsia.pellet.sparqldl.model.Query;
@@ -38,6 +37,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import openllet.aterm.ATermAppl;
 import openllet.shared.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
