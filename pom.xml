@@ -372,7 +372,7 @@
   <profiles>
       
     <profile>
-      <id>release</id>
+      <id>ossrh</id>
       <activation>
         <activeByDefault>false</activeByDefault>
         <property>
@@ -431,6 +431,7 @@
                 </goals>
                 <configuration>
                   <skip>${no-javadoc}</skip>
+                  <additionalparam>-Xdoclint:none</additionalparam> <!-- I know its not good, but I wont fix all the javadoc in one shoot. All the new writing have good doc, give me time to correct more than ten year of bad practice. -->
                 </configuration>
               </execution>
             </executions>
