@@ -28,7 +28,7 @@ public class PelletServiceTest extends PelletClientTest {
 		agencyOntId = createAgenciesOntology(mClient);
 		owl2OntId = createOwl2Ontology(mClient);
 
-		startPelletServer(AGENCIES_HISTORY);
+		startPelletServer(AGENCIES_ONT);
 	}
 
 	@Test
@@ -54,7 +54,7 @@ public class PelletServiceTest extends PelletClientTest {
 	public void ontologyAddDelete() throws Exception {
 		PelletService aService = serviceProvider.get();
 
-		ClientTools.executeCall(aService.load(OWL2_HISTORY));
+		ClientTools.executeCall(aService.load(OWL2_ONT));
 
 		ClientTools.executeCall(aService.unload(owl2OntId));
 

@@ -1,123 +1,121 @@
 package com.clarkparsia.pellet.server.protege;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.Optional;
 
 import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.google.common.collect.TreeTraverser;
+import com.google.common.base.Charsets;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Files;
 import com.google.common.io.Resources;
-
+import edu.stanford.protege.metaproject.Manager;
+import edu.stanford.protege.metaproject.api.MetaprojectFactory;
+import edu.stanford.protege.metaproject.api.Project;
+import edu.stanford.protege.metaproject.api.ProjectOptions;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
-import org.protege.owl.server.api.ChangeMetaData;
-import org.protege.owl.server.api.client.Client;
-import org.protege.owl.server.api.client.RemoteServerDirectory;
-import org.protege.owl.server.api.client.RemoteServerDocument;
-import org.protege.owl.server.api.exception.OWLServerException;
-import org.protege.owl.server.api.server.Server;
-import org.protege.owl.server.api.server.ServerTransport;
-import org.protege.owl.server.conflict.ConflictManager;
-import org.protege.owl.server.connect.local.LocalTransport;
-
-import org.protege.owl.server.connect.local.LocalTransportImpl;
-import org.protege.owl.server.connect.rmi.RMITransport;
-import org.protege.owl.server.core.ServerImpl;
-import org.protege.owl.server.policy.Authenticator;
-
-import org.protege.owl.server.util.ClientUtilities;
+import org.junit.BeforeClass;
+import org.protege.editor.owl.client.LocalHttpClient;
+import org.protege.editor.owl.client.util.ClientUtils;
+import org.protege.editor.owl.server.ServerActivator;
+import org.protege.editor.owl.server.api.CommitBundle;
+import org.protege.editor.owl.server.http.HTTPServer;
+import org.protege.editor.owl.server.policy.CommitBundleImpl;
+import org.protege.editor.owl.server.versioning.Commit;
+import org.protege.editor.owl.server.versioning.api.DocumentRevision;
+import org.protege.editor.owl.server.versioning.api.ServerDocument;
 import org.semanticweb.owlapi.model.IRI;
-
-import static org.junit.Assert.assertTrue;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
 
 /**
  * @author Edgar Rodriguez-Diaz
  */
 public abstract class ProtegeServerTest extends TestUtilities {
-	private static Server mServer;
-	private static LocalTransport mLocalTransport;
+	private static HTTPServer mServer;
 
-	protected final static int RMI_PORT = 4875;
+	protected static File TEST_HOME;
+	protected static File CONFIG_FILE;
+	protected static String CONFIG;
 
-	protected final static Path TEST_HOME = Paths.get(PELLET_DIRECTORY.toURI());
+	protected final static String OWL2_ONT = "owl2";
+	protected final static String AGENCIES_ONT = "agencies";
 
-	protected final static String OWL2_HISTORY = "owl2.history";
-	protected final static String AGENCIES_HISTORY = "agencies.history";
+	protected static File OWL2_FILE;
+	protected static File AGENCIES_FILE;
 
 	public ProtegeServerTest() {
 		super();
 	}
 
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		TEST_HOME = Files.createTempDir();
+		System.out.println(TEST_HOME.getAbsolutePath());
+		CONFIG_FILE = new File(TEST_HOME, "server-configuration.json");
+		CONFIG = Resources.toString(ProtegeServerTest.class.getResource("/server-configuration.json"), Charsets.UTF_8)
+		                  .replace("_ROOT_", TEST_HOME.getAbsolutePath());
+		System.setProperty(ServerActivator.SERVER_CONFIGURATION_PROPERTY, CONFIG_FILE.getAbsolutePath());
+
+		OWL2_FILE = createFile("owl2");
+		AGENCIES_FILE = createFile("agencies");
+	}
+
+	private static File createFile(String resourceName) throws IOException {
+		File f = File.createTempFile(resourceName, "owl");
+		f.deleteOnExit();
+		try (OutputStream out = new FileOutputStream(f)) {
+			Resources.copy(Resources.getResource(resourceName + ".owl"), out);
+		}
+		return f;
+	}
+
+	@AfterClass
+	public static void afterClass() throws Exception {
+		FileUtils.deleteDirectory(TEST_HOME);
+		OWL2_FILE.delete();
+		AGENCIES_FILE.delete();
+	}
+
 	@Before
 	public void before() throws Exception {
-		initializeServerRoot();
-
-		Server core = new ServerImpl(ROOT_DIRECTORY, CONFIGURATION_DIRECTORY);
-		mServer = new Authenticator(new ConflictManager(core), USERDB);
-
-		List<ServerTransport> transports = new ArrayList<ServerTransport>();
-		ServerTransport rmiTransport = new RMITransport(RMI_PORT, RMI_PORT);
-		rmiTransport.start(mServer);
-		transports.add(rmiTransport);
-		mLocalTransport = new LocalTransportImpl();
-		mLocalTransport.start(mServer);
-		transports.add(mLocalTransport);
-
-		mServer.setTransports(transports);
+		Files.write(CONFIG, CONFIG_FILE, Charsets.UTF_8);
+		mServer = new HTTPServer();
+		mServer.start();
 	}
 
 	@After
 	public void after() throws Exception {
-		mServer.shutdown();
+		mServer.stop();
+		FileUtils.cleanDirectory(TEST_HOME);
 		OntologyUtils.clearOWLOntologyManager();
-		cleanHome();
 	}
 
-	public static void cleanHome() {
-		final TreeTraverser<File> aTraverser = com.google.common.io.Files.fileTreeTraverser();
-
-		for (File aFile : aTraverser.postOrderTraversal(TEST_HOME.toFile())) {
-			aFile.delete();
-		}
-	}
-
-	protected LocalTransport local() {
-		return mLocalTransport;
-	}
-
-	protected static IRI root(final Client client) {
-		return IRI.create(client.getScheme() +"://"+ client.getAuthority() +":"+ RMI_PORT);
-	}
-
-	protected static void removeAll() {
-		delete(ROOT_DIRECTORY);
-	}
-
-	protected static void checkClientOk(Client client) throws OWLServerException {
-		IRI root = IRI.create(client.getScheme() + "://" + client.getAuthority());
-		RemoteServerDocument doc = client.getServerDocument(root);
-		assertTrue(doc instanceof RemoteServerDirectory);
-		assertTrue(client.list((RemoteServerDirectory) doc).isEmpty());
-	}
-
-	protected static IRI createOwl2Ontology(final Client client) throws OWLServerException {
-		ClientUtilities.createServerOntology(client,
-		                                     IRI.create(root(client).toString() +"/", OWL2_HISTORY),
-		                                     new ChangeMetaData("Initial entry"),
-		                                     OntologyUtils.loadOntology(Resources.getResource("owl2.owl")
-		                                                                         .toString()));
+	protected static IRI createOwl2Ontology(final LocalHttpClient client) throws Exception {
+		createOntology(OWL2_ONT, OWL2_FILE, client);
 		return IRI.create("http://www.example.org/test");
 	}
 
-	protected static IRI createAgenciesOntology(final Client client) throws OWLServerException {
-		ClientUtilities.createServerOntology(client,
-		                                     IRI.create(root(client).toString() + "/", AGENCIES_HISTORY),
-		                                     new ChangeMetaData("Initial entry"),
-		                                     OntologyUtils.loadOntology(Resources.getResource("agencies.owl")
-		                                                                         .toString()));
+	protected static IRI createAgenciesOntology(final LocalHttpClient client) throws Exception {
+		createOntology(AGENCIES_ONT, AGENCIES_FILE, client);
 		return  IRI.create("http://www.owl-ontologies.com/unnamed.owl");
 	}
 
+	protected static void createOntology(final String resourceName, final File ont, final LocalHttpClient client) throws Exception {
+		MetaprojectFactory f = Manager.getFactory();
+		Project p = f.getProject(f.getProjectId(resourceName),
+		                         f.getName(resourceName),
+		                         f.getDescription(resourceName),
+		                         ont,
+		                         f.getUserId("admin"),
+		                         Optional.<ProjectOptions>empty());
+		ServerDocument s = client.createProject(p);
+		System.out.println(s);
+	}
 }

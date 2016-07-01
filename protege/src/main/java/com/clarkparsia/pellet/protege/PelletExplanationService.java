@@ -30,7 +30,6 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.BorderUIResource;
 
-import com.beust.jcommander.internal.Sets;
 import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;

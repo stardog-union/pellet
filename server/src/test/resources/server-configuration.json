@@ -1,0 +1,321 @@
+{
+  "host": {
+    "uri": "http://localhost:8080",
+    "secondaryPort": "5200"
+  },
+  "root": "_ROOT_",
+  "metaproject": {
+    "policy": {
+      "root": {
+        "all-projects": [
+          "mp-admin"
+        ]
+      },
+      "guest": {
+        "all-projects": [
+          "mp-guest"
+        ]
+      }
+    },
+    "users": [
+      {
+        "id": "guest",
+        "name": "Guest User",
+        "emailAddress": ""
+      },
+      {
+        "id": "root",
+        "name": "Root User",
+        "emailAddress": ""
+      }
+    ],
+    "projects": [
+    ],
+    "roles": [
+      {
+        "id": "mp-admin",
+        "name": "Administrator",
+        "description": "A user with this role is allowed to do any operation on the server",
+        "operations": [
+          "add-user",
+          "remove-role",
+          "remove-axiom",
+          "add-axiom",
+          "remove-import",
+          "add-ontology-annotation",
+          "remove-user",
+          "add-role",
+          "reject-change",
+          "modify-project",
+          "remove-operation",
+          "stop-server",
+          "remove-ontology-annotation",
+          "modify-user",
+          "modify-ontology-iri",
+          "remove-project",
+          "open-project",
+          "add-import",
+          "modify-operation",
+          "retract-role",
+          "modify-settings",
+          "add-project",
+          "assign-role",
+          "add-operation",
+          "modify-role",
+          "accept-change"
+        ]
+      },
+      {
+        "id": "mp-guest",
+        "name": "Guest",
+        "description": "A user with this role is allowed to do any read operation on the server",
+        "operations": [
+          "open-project"
+        ]
+      },
+      {
+        "id": "mp-project-manager",
+        "name": "Project Manager",
+        "description": "A user with this role is allowed to create, remove, modify and open a project, as well as to perform any ontology operations",
+        "operations": [
+          "remove-axiom",
+          "remove-ontology-annotation",
+          "add-axiom",
+          "modify-ontology-iri",
+          "add-import",
+          "remove-import",
+          "remove-project",
+          "open-project",
+          "add-ontology-annotation",
+          "reject-change",
+          "add-project",
+          "modify-project",
+          "accept-change"
+        ]
+      }
+    ],
+    "operations": [
+      {
+        "default": true,
+        "id": "accept-change",
+        "name": "Accept change",
+        "description": "Accept a change in the change history",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "add-axiom",
+        "name": "Add axiom",
+        "description": "Add an axiom to the ontology",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "add-ontology-annotation",
+        "name": "Add ontology annotation",
+        "description": "Add an annotation to the ontology",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "add-import",
+        "name": "Add ontology import",
+        "description": "Add an imported ontology to the ontology",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "add-operation",
+        "name": "Add operation",
+        "description": "Add an operation to the operation registry",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "add-project",
+        "name": "Add project",
+        "description": "Add a project to the project registry",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "add-role",
+        "name": "Add role",
+        "description": "Add a role to the role registry",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "add-user",
+        "name": "Add user",
+        "description": "Add a user to the user registry",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "assign-role",
+        "name": "Assign role",
+        "description": "Assign a role to a user within a project",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "modify-operation",
+        "name": "Modify operation",
+        "description": "Modify operation details",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "modify-project",
+        "name": "Modify project",
+        "description": "Modify project details and options",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "modify-role",
+        "name": "Modify role",
+        "description": "Modify role details and associated operations",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "modify-settings",
+        "name": "Modify server settings",
+        "description": "Make changes to the settings of the server, such as host or custom properties",
+        "type": "WRITE",
+        "scope": "SERVER"
+      },
+      {
+        "default": true,
+        "id": "modify-ontology-iri",
+        "name": "Modify the ontology IRI",
+        "description": "Modify the IRI of the ontology",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "modify-user",
+        "name": "Modify user",
+        "description": "Modify user details (name and email address)",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "open-project",
+        "name": "Open project",
+        "description": "Open a project in the project registry",
+        "type": "READ",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "reject-change",
+        "name": "Reject change",
+        "description": "Reject a change in the change history",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "remove-axiom",
+        "name": "Remove axiom",
+        "description": "Remove an axiom from the ontology",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "remove-ontology-annotation",
+        "name": "Remove ontology annotation",
+        "description": "Remove an annotation from the ontology",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "remove-import",
+        "name": "Remove ontology import",
+        "description": "Remove an imported ontology from the ontology",
+        "type": "WRITE",
+        "scope": "ONTOLOGY"
+      },
+      {
+        "default": true,
+        "id": "remove-operation",
+        "name": "Remove operation",
+        "description": "Remove an operation from the operation registry",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "remove-project",
+        "name": "Remove project",
+        "description": "Remove a project from the project registry",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "remove-role",
+        "name": "Remove role",
+        "description": "Remove a role from the role registry",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "remove-user",
+        "name": "Remove user",
+        "description": "Remove a user from the user registry",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "retract-role",
+        "name": "Retract role",
+        "description": "Retract a role from a user",
+        "type": "WRITE",
+        "scope": "METAPROJECT"
+      },
+      {
+        "default": true,
+        "id": "stop-server",
+        "name": "Stop the server",
+        "description": "Stop the execution of the server",
+        "type": "EXECUTE",
+        "scope": "SERVER"
+      }
+    ]
+  },
+  "authentication": [
+    {
+      "userId": "guest",
+      "password": "4e39216f3fe3bba1716b0b6a88f71d49fa4454835e09d3a9",
+      "salt": "75f8597a1b9df86d45e48de4b253b0d2fb26d71e7f45ea34"
+    },
+    {
+      "userId": "root",
+      "password": "73507c4a26f38e2ac9365860f65687bbee91c4e58363f020",
+      "salt": "ff693dff6d089ec722af600fa9abd9e4d6cf2aed985b18a1"
+    }
+  ],
+  "properties": {}
+}

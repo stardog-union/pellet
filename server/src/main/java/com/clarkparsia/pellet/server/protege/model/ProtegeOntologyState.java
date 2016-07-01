@@ -11,26 +11,19 @@ package com.clarkparsia.pellet.server.protege.model;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
 import com.google.common.io.Files;
-import com.google.common.primitives.Ints;
-import org.protege.owl.server.api.ChangeHistory;
-import org.protege.owl.server.api.OntologyDocumentRevision;
-import org.protege.owl.server.api.RevisionPointer;
-import org.protege.owl.server.api.client.Client;
-import org.protege.owl.server.api.client.RemoteOntologyDocument;
-import org.protege.owl.server.api.exception.OWLServerException;
+import org.protege.editor.owl.client.LocalHttpClient;
+import org.protege.editor.owl.client.util.ClientUtils;
+import org.protege.editor.owl.server.versioning.api.ChangeHistory;
+import org.protege.editor.owl.server.versioning.api.DocumentRevision;
+import org.protege.editor.owl.server.versioning.api.ServerDocument;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.SetOntologyID;
 
 /**
  * @author Evren Sirin
@@ -38,14 +31,14 @@ import org.semanticweb.owlapi.model.SetOntologyID;
 public class ProtegeOntologyState extends OntologyStateImpl {
 	public static final Logger LOGGER = Logger.getLogger(ProtegeOntologyState.class.getName());
 
-	private final Client client;
+	private final LocalHttpClient client;
 	
-	private final RemoteOntologyDocument remoteOnt;
+	private final ServerDocument remoteOnt;
 
-	private OntologyDocumentRevision revision;
+	private DocumentRevision revision;
 
-	public ProtegeOntologyState(final Client client,
-	                            final RemoteOntologyDocument remoteOnt,
+	public ProtegeOntologyState(final LocalHttpClient client,
+	                            final ServerDocument remoteOnt,
 	                            final Path path) throws IOException {
 		super(path);
 
@@ -59,14 +52,14 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		return path.resolveSibling("HEAD").toFile();
 	}
 
-	private static OntologyDocumentRevision readRevision(final Path path) throws IOException {
+	private static DocumentRevision readRevision(final Path path) throws IOException {
 		final File aHeadFile = revisionFile(path);
 
 		if (aHeadFile.exists()) {
-			return new OntologyDocumentRevision(Integer.parseInt(Files.toString(aHeadFile, Charsets.UTF_8)));
+			return DocumentRevision.create(Integer.parseInt(Files.toString(aHeadFile, Charsets.UTF_8)));
 		}
 
-		return OntologyDocumentRevision.START_REVISION;
+		return DocumentRevision.START_REVISION;
 	}
 
 	private void writeRevision() throws IOException {
@@ -77,33 +70,27 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 	@Override
 	protected boolean updateOntology(OWLOntology ontology) {
 		try {
-			OntologyDocumentRevision headRevision = client.evaluateRevisionPointer(remoteOnt, RevisionPointer.HEAD_REVISION);
-			int cmp = revision.compareTo(headRevision);
-			boolean update = cmp != 0;
+			ChangeHistory history = client.getLatestChanges(remoteOnt, revision);
+			boolean update = !history.isEmpty();
 			if (update) {
-				if (cmp > 0) {
-					throw new IllegalStateException("Current revision is higher than the HEAD revision");
-				}
+				DocumentRevision headRevision = history.getHeadRevision();
 
 				LOGGER.info("Updating " + this + " from " + revision + " to " + headRevision);
 
-				ChangeHistory history = client.getChanges(remoteOnt, revision.asPointer(), headRevision.asPointer());
-
-				List<OWLOntologyChange> changes = filterChanges(history.getChanges(ontology));
-				ontology.getOWLOntologyManager().applyChanges(changes);
+				ClientUtils.updateOntology(ontology, history, ontology.getOWLOntologyManager());
 
 				revision = headRevision;
 			}
 			return update;
 		}
-		catch (OWLServerException e) {
+		catch (Exception e) {
 			LOGGER.warning("Cannot retrieve changes from the server");
 			return false;
 		}
 	}
 
 	protected int getVersion() {
-		return revision.getRevisionDifferenceFrom(OntologyDocumentRevision.START_REVISION);
+		return revision.getRevisionNumber();
 	}
 
 	@Override
@@ -116,16 +103,6 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		catch (IOException theE) {
 			LOGGER.log(Level.SEVERE, "Couldn't save the ontology state " + getIRI().toQuotedString(), theE);
 		}
-	}
-
-	private static List<OWLOntologyChange> filterChanges(List<OWLOntologyChange> changes) {
-		final List<OWLOntologyChange> filteredChanges = Lists.newArrayList();
-		for (OWLOntologyChange change : changes) {
-			if (change instanceof SetOntologyID || change.isAxiomChange() && (change.getAxiom().isLogicalAxiom() || change.getAxiom() instanceof OWLDeclarationAxiom)) {
-				filteredChanges.add(change);
-			}
-		}
-		return filteredChanges;
 	}
 
 	@Override

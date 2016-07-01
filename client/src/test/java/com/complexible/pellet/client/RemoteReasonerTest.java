@@ -1,5 +1,7 @@
 package com.complexible.pellet.client;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,8 +17,6 @@ import com.complexible.pellet.client.reasoner.SchemaOWLReasonerFactory;
 import com.google.common.collect.ImmutableSet;
 import org.junit.Before;
 import org.junit.Test;
-import org.protege.owl.server.api.ChangeMetaData;
-import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -88,12 +88,11 @@ public class RemoteReasonerTest extends PelletClientTest {
 
 		final OWLOntology ont = createOntology();
 
-		ClientUtilities.createServerOntology(mClient,
-		                                     IRI.create(root(mClient) + "/test.history"),
-		                                     new ChangeMetaData("Initial entry"),
-		                                     ont);
+		File f = File.createTempFile("tmp", ".owl");
+		ont.saveOntology(new FileOutputStream(f));
+		createOntology("test", f, mClient);
 
-		startPelletServer("test.history");
+		startPelletServer("test");
 
 		reasoner = new SchemaOWLReasonerFactory(FACTORY).createReasoner(ont);
 	}

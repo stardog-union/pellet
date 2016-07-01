@@ -8,10 +8,10 @@ import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.protege.ProtegeServerTest;
 import com.clarkparsia.pellet.server.protege.TestProtegeServerConfiguration;
 import com.google.common.base.Optional;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.protege.owl.server.api.client.Client;
-import org.protege.owl.server.api.exception.OWLServerException;
+import org.protege.editor.owl.client.LocalHttpClient;
 import org.semanticweb.owlapi.model.IRI;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +36,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		recreateServerState();
 	}
 
-	@Before
+	@After
 	public void after() throws Exception {
 		super.after();
 
@@ -59,7 +59,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		assertTrue(mServerState.ontologies().isEmpty());
 	}
 
-	private void loadOntologies(final Client theClient) throws OWLServerException {
+	private void loadOntologies(final LocalHttpClient theClient) throws Exception {
 		// create ontologies
 		createOwl2Ontology(theClient);
 		createAgenciesOntology(theClient);
@@ -88,12 +88,12 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 	public void shouldHaveOntologies() throws Exception {
 		assertNotNull(mServerState);
 
-		Client aClient = mServerState.getClient();
+		LocalHttpClient aClient = mServerState.getClient();
 
 		// create ontologies
 		loadOntologies(aClient);
 
-		recreateServerState(OWL2_HISTORY, AGENCIES_HISTORY);
+		recreateServerState(OWL2_ONT, AGENCIES_ONT);
 
 		assertOntologies("http://www.example.org/test", "http://www.owl-ontologies.com/unnamed.owl");
 	}
@@ -102,16 +102,16 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 	public void addRemoveOntologies() throws Exception {
 		assertNotNull(mServerState);
 
-		Client aClient = mServerState.getClient();
+		LocalHttpClient aClient = mServerState.getClient();
 
 		// create ontologies
 		loadOntologies(aClient);
 
-		OntologyState s = mServerState.addOntology(OWL2_HISTORY);
+		OntologyState s = mServerState.addOntology(OWL2_ONT);
 		assertOntologies("http://www.example.org/test");
 		assertNotNull(s);
 
-		s = mServerState.addOntology(AGENCIES_HISTORY);
+		s = mServerState.addOntology(AGENCIES_ONT);
 		assertOntologies("http://www.example.org/test", "http://www.owl-ontologies.com/unnamed.owl");
 		assertNotNull(s);
 
@@ -132,11 +132,11 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 	public void shouldSaveOntologyStates() throws Exception {
 		assertNotNull(mServerState);
 
-		Client aClient = mServerState.getClient();
+		LocalHttpClient aClient = mServerState.getClient();
 
 		loadOntologies(aClient);
 
-		recreateServerState(OWL2_HISTORY, AGENCIES_HISTORY);
+		recreateServerState(OWL2_ONT, AGENCIES_ONT);
 
 		mServerState.save();
 
@@ -152,11 +152,11 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 	public void shouldSaveAndLoadOntologyStates() throws Exception {
 		assertNotNull(mServerState);
 
-		Client aClient = mServerState.getClient();
+		LocalHttpClient aClient = mServerState.getClient();
 
 		loadOntologies(aClient);
 
-		recreateServerState(OWL2_HISTORY, AGENCIES_HISTORY);
+		recreateServerState(OWL2_ONT, AGENCIES_ONT);
 
 		mServerState.save();
 
@@ -167,7 +167,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 			assertTrue(Files.exists(getOntologyReasoner(aState)));
 		}
 
-		recreateServerState(OWL2_HISTORY, AGENCIES_HISTORY);
+		recreateServerState(OWL2_ONT, AGENCIES_ONT);
 
 		assertFalse(mServerState.ontologies().isEmpty());
 

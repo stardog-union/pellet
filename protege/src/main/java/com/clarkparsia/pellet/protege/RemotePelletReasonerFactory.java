@@ -14,11 +14,11 @@ import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.complexible.pellet.client.reasoner.SchemaOWLReasoner;
-import org.protege.editor.owl.client.connect.ServerConnectionManager;
+import org.protege.editor.owl.client.ClientSession;
+import org.protege.editor.owl.client.api.Client;
+import org.protege.editor.owl.client.util.ClientUtils;
 import org.protege.editor.owl.model.OWLModelManager;
-import org.protege.owl.server.api.client.Client;
-import org.protege.owl.server.api.client.VersionedOntologyDocument;
-import org.protege.owl.server.util.ClientUtilities;
+import org.protege.editor.owl.server.versioning.api.VersionedOWLOntology;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
@@ -34,7 +34,7 @@ public class RemotePelletReasonerFactory implements OWLReasonerFactory {
 
 	private final SchemaReasonerFactory factory;
 	private final OWLModelManager modelManager;
-	private ServerConnectionManager connectionManager;
+	private ClientSession connectionManager;
 
 	public RemotePelletReasonerFactory(final SchemaReasonerFactory theFactory, final OWLModelManager theModelManager) {
 		factory = theFactory;
@@ -49,26 +49,18 @@ public class RemotePelletReasonerFactory implements OWLReasonerFactory {
 	private SchemaOWLReasoner createReasoner(final OWLOntology ontology, final BufferingMode bufferingMode) {
 		SchemaOWLReasoner reasoner = new SchemaOWLReasoner(ontology, factory, bufferingMode);
 
-
 		if (connectionManager == null) {
-			connectionManager = modelManager.get(ServerConnectionManager.ID);
-
-			System.out.println("connectionManager " + connectionManager);
-		}
-
-
-		if (connectionManager == null) {
-			connectionManager = modelManager.get(ServerConnectionManager.ID);
+			connectionManager = modelManager.get(ClientSession.ID);
 
 			System.out.println("No connection manager can be found");
 		}
 		else {
-			VersionedOntologyDocument vont = connectionManager.getVersionedOntology(ontology);
+			VersionedOWLOntology vont = connectionManager.getActiveVersionOntology();
 			if (vont != null) {
 				try {
 					// FIXME also compare the vont version with the remote version
-					Client client = connectionManager.createClient(ontology);
-					List<OWLOntologyChange> uncommitted = ClientUtilities.getUncommittedChanges(client, vont);
+					Client client = connectionManager.getActiveClient();
+					List<OWLOntologyChange> uncommitted = ClientUtils.getUncommittedChanges(ontology, vont.getChangeHistory());
 					LOGGER.info("There are " + uncommitted.size() + " uncommitted change(s)");
 					if (!uncommitted.isEmpty()) {
 						LOGGER.info("Sending " + uncommitted.size() + " uncommitted changes to the remote server");

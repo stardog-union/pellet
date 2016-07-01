@@ -1,6 +1,5 @@
 package com.clarkparsia.pellet.server.protege.model;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
@@ -11,19 +10,17 @@ import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.Configuration;
 import com.clarkparsia.pellet.server.ConfigurationReader;
-import com.clarkparsia.pellet.server.exceptions.ProtegeConnectionException;
 import com.clarkparsia.pellet.server.model.OntologyState;
-import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.protege.owl.server.api.client.Client;
-import org.protege.owl.server.api.client.RemoteOntologyDocument;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
+import edu.stanford.protege.metaproject.api.ProjectId;
+import edu.stanford.protege.metaproject.impl.ProjectIdImpl;
+import org.protege.editor.owl.client.LocalHttpClient;
+import org.protege.editor.owl.client.api.exception.ClientRequestException;
+import org.protege.editor.owl.server.versioning.api.ServerDocument;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
@@ -34,9 +31,7 @@ public final class ProtegeServerState extends ServerStateImpl {
 
 	private static final Logger LOGGER = Logger.getLogger(ProtegeServerState.class.getName());
 
-	private final Client mClient;
-
-	private final IRI mServerRoot;
+	private final LocalHttpClient mClient;
 
 	private final Path mHome;
 
@@ -46,32 +41,33 @@ public final class ProtegeServerState extends ServerStateImpl {
 	private final ReentrantLock updateLock = new ReentrantLock();
 
 	@Inject
-	public ProtegeServerState(final Configuration theConfig) throws ProtegeConnectionException, OWLOntologyCreationException {
+	public ProtegeServerState(final Configuration theConfig) throws Exception {
 		this(ConfigurationReader.of(theConfig));
 	}
 
-	ProtegeServerState(final ConfigurationReader theConfigReader) throws ProtegeConnectionException, OWLOntologyCreationException {
+	ProtegeServerState(final ConfigurationReader theConfigReader) throws Exception {
 		super(ImmutableSet.<OntologyState>of());
 
 		mHome = Paths.get(theConfigReader.pelletSettings().home());
 
 		mClient = ProtegeServiceUtils.connect(theConfigReader);
-		mServerRoot = IRI.create(mClient.getScheme() + "://" + mClient.getAuthority());
 
-		for (String aOntology : theConfigReader.protegeSettings().ontologies()) {
-			addOntology(aOntology);
+		Set<String> onts = theConfigReader.protegeSettings().ontologies();
+		for (String ont : onts) {
+			addOntology(ont);
 		}
 	}
 
+	@Override
 	protected OntologyState createOntologyState(final String ontologyPath) throws OWLOntologyCreationException {
-		final IRI serverRoot = IRI.create(mClient.getScheme() + "://" + mClient.getAuthority());
 		LOGGER.info("Loading ontology " + ontologyPath);
 
 		try {
-			IRI remoteIRI = serverRoot.resolve("/"+ ontologyPath);
-			RemoteOntologyDocument ontoDoc = (RemoteOntologyDocument) mClient.getServerDocument(remoteIRI);
+			ProjectId projectID = new ProjectIdImpl(ontologyPath);
 
-			ProtegeOntologyState state = new ProtegeOntologyState(mClient, ontoDoc, mHome.resolve(ontologyPath).resolve("reasoner_state.bin"));
+			ServerDocument serverDoc = mClient.openProject(projectID);
+
+			ProtegeOntologyState state = new ProtegeOntologyState(mClient, serverDoc, mHome.resolve(projectID.get()).resolve("reasoner_state.bin"));
 
 			LOGGER.info("Loaded revision " + state.getVersion());
 
@@ -80,6 +76,7 @@ public final class ProtegeServerState extends ServerStateImpl {
 			return state;
 		}
 		catch (Exception e) {
+			System.out.println(e.getMessage());
 			throw new OWLOntologyCreationException("Could not load ontology from Protege server: " + ontologyPath, e);
 		}
 	}
@@ -109,7 +106,7 @@ public final class ProtegeServerState extends ServerStateImpl {
 		return false;
 	}
 
-	public Client getClient() {
+	public LocalHttpClient getClient() {
 		return mClient;
 	}
 }

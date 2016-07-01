@@ -7,7 +7,6 @@ import com.complexible.pellet.client.ClientModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.mindswap.pellet.PelletOptions;
-import org.protege.editor.owl.client.connect.ServerConnectionManager;
 import org.protege.editor.owl.model.inference.AbstractProtegeOWLReasonerInfo;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
