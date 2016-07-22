@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -24,6 +25,7 @@ import org.protege.editor.owl.server.versioning.api.DocumentRevision;
 import org.protege.editor.owl.server.versioning.api.ServerDocument;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.SetOntologyID;
 
 /**
  * @author Evren Sirin
@@ -37,6 +39,8 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 
 	private DocumentRevision revision;
 
+	private boolean snapshotLoaded = false;
+
 	public ProtegeOntologyState(final LocalHttpClient client,
 	                            final ServerDocument remoteOnt,
 	                            final Path path) throws IOException {
@@ -45,6 +49,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		this.client = client;
 		this.remoteOnt = remoteOnt;
 		this.revision = readRevision(path);
+		this.snapshotLoaded = revision.getRevisionNumber() > 0;
 		writeRevision();
 	}
 
@@ -70,6 +75,18 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 	@Override
 	protected boolean updateOntology(OWLOntology ontology) {
 		try {
+			boolean loadSnapshot = !snapshotLoaded;
+			if (loadSnapshot) {
+				if(!client.snapShotExists(remoteOnt)) {
+					client.getSnapShot(remoteOnt);
+				}
+
+				OWLOntology snapshotOnt = client.loadSnapShot(MANAGER, remoteOnt);
+				MANAGER.addAxioms(ontology, snapshotOnt.getAxioms());
+				MANAGER.applyChange(new SetOntologyID(ontology, snapshotOnt.getOntologyID()));
+				snapshotLoaded = true;
+			}
+
 			ChangeHistory history = client.getLatestChanges(remoteOnt, revision);
 			boolean update = !history.isEmpty();
 			if (update) {
@@ -81,7 +98,8 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 
 				revision = headRevision;
 			}
-			return update;
+
+			return loadSnapshot || update;
 		}
 		catch (Exception e) {
 			LOGGER.warning("Cannot retrieve changes from the server");

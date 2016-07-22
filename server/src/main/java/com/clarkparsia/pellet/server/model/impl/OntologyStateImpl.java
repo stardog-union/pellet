@@ -42,7 +42,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 public class OntologyStateImpl implements OntologyState {
 	public static final Logger LOGGER = Logger.getLogger(OntologyStateImpl.class.getName());
 
-	private static final OWLOntologyManager MANAGER = OWLManager.createOWLOntologyManager();
+	protected static final OWLOntologyManager MANAGER = OWLManager.createOWLOntologyManager();
 
 	private final OWLOntology ontology;
 

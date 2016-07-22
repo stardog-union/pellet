@@ -60,7 +60,7 @@ public class RemotePelletReasonerFactory implements OWLReasonerFactory {
 				try {
 					// FIXME also compare the vont version with the remote version
 					Client client = connectionManager.getActiveClient();
-					List<OWLOntologyChange> uncommitted = ClientUtils.getUncommittedChanges(ontology, vont.getChangeHistory());
+					List<OWLOntologyChange> uncommitted = ClientUtils.getUncommittedChanges(modelManager.getHistoryManager(), ontology, vont.getChangeHistory());
 					LOGGER.info("There are " + uncommitted.size() + " uncommitted change(s)");
 					if (!uncommitted.isEmpty()) {
 						LOGGER.info("Sending " + uncommitted.size() + " uncommitted changes to the remote server");

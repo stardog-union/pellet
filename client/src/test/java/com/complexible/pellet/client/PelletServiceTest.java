@@ -1,11 +1,24 @@
 package com.complexible.pellet.client;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapiv3.OntologyUtils;
+import edu.stanford.protege.metaproject.Manager;
 import org.junit.Before;
 import org.junit.Test;
+import org.openrdf.model.vocabulary.RDFS;
+import org.protege.editor.owl.client.util.ClientUtils;
+import org.protege.editor.owl.server.api.CommitBundle;
+import org.protege.editor.owl.server.policy.CommitBundleImpl;
+import org.protege.editor.owl.server.versioning.Commit;
+import org.protege.editor.owl.server.versioning.api.DocumentRevision;
+import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -40,12 +53,25 @@ public class PelletServiceTest extends PelletClientTest {
 	}
 
 	@Test
-	public void shouldGetVersionFromClient() {
+	public void shouldGetVersionFromClient() throws Exception {
 		PelletService aService = serviceProvider.get();
 
 		Call<Integer> aVersionCall = aService.version(agencyOntId, ID);
 
 		int aVersion = ClientTools.executeCall(aVersionCall);
+
+		assertEquals(0, aVersion);
+
+		OWLOntology ont = OWL.manager.createOntology(agencyOntId);
+		Commit commit = ClientUtils.createCommit(mClient, "comment", Arrays.<OWLOntologyChange>asList(new AddAxiom(ont, OWL.subClassOf(OWL.Nothing, OWL.Thing))));
+		CommitBundle commitBundle = new CommitBundleImpl(DocumentRevision.START_REVISION, commit);
+		mClient.commit(Manager.getFactory().getProjectId(AGENCIES_ONT), commitBundle);
+
+		pelletServer.getState().update();
+
+		aVersionCall = aService.version(agencyOntId, UUID.randomUUID());
+
+		aVersion = ClientTools.executeCall(aVersionCall);
 
 		assertEquals(1, aVersion);
 	}

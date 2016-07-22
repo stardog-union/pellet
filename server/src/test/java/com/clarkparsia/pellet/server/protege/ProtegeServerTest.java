@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.protege.editor.owl.client.LocalHttpClient;
 import org.protege.editor.owl.client.util.ClientUtils;
-import org.protege.editor.owl.server.ServerActivator;
 import org.protege.editor.owl.server.api.CommitBundle;
 import org.protege.editor.owl.server.http.HTTPServer;
 import org.protege.editor.owl.server.policy.CommitBundleImpl;
@@ -61,7 +60,7 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		CONFIG_FILE = new File(TEST_HOME, "server-configuration.json");
 		CONFIG = Resources.toString(ProtegeServerTest.class.getResource("/server-configuration.json"), Charsets.UTF_8)
 		                  .replace("_ROOT_", TEST_HOME.getAbsolutePath());
-		System.setProperty(ServerActivator.SERVER_CONFIGURATION_PROPERTY, CONFIG_FILE.getAbsolutePath());
+		System.setProperty(HTTPServer.SERVER_CONFIGURATION_PROPERTY, CONFIG_FILE.getAbsolutePath());
 
 		OWL2_FILE = createFile("owl2");
 		AGENCIES_FILE = createFile("agencies");

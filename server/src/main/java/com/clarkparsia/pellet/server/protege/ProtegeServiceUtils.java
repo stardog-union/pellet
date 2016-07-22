@@ -2,6 +2,7 @@ package com.clarkparsia.pellet.server.protege;
 
 import com.clarkparsia.pellet.server.ConfigurationReader;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import org.protege.editor.owl.client.LocalHttpClient;
 
 /**
@@ -22,9 +23,14 @@ public final class ProtegeServiceUtils {
 			throw new IllegalArgumentException("A host is required to connect to a Protege Server");
 		}
 		else {
-			LocalHttpClient aClient = new LocalHttpClient(protege.username(), protege.password(), "http://" + protege.host() + ":" + protege.port());
+			try {
+				LocalHttpClient aClient = new LocalHttpClient(protege.username(), protege.password(), "http://" + protege.host() + ":" + protege.port());
 
-			return aClient;
+				return aClient;
+			}
+			catch (Exception e) {
+				throw Throwables.propagate(e);
+			}
 		}
 	}
 }
