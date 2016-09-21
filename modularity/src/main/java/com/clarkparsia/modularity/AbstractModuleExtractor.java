@@ -58,7 +58,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 public abstract class AbstractModuleExtractor implements ModuleExtractor {
@@ -104,7 +104,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	public AbstractModuleExtractor() {
 		this(LocalityClass.BOTTOM_BOTTOM);
 	}
-	
+
 	public AbstractModuleExtractor(LocalityClass localityClass) {
 		this.localityClass = localityClass;
 		localityEvaluator = new SyntacticLocalityEvaluator(localityClass);
@@ -122,10 +122,15 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	}
 
 	public void addAxiom(OWLAxiom axiom) {
-		checkNonLocalAxiom( axiom );
+		if( !axiom.isLogicalAxiom() )
+			return;
+
+		axiom = axiom.getAxiomWithoutAnnotations();
 
 		if( axioms.contains( axiom ) )
 			return;
+
+		checkNonLocalAxiom( axiom );
 
 		if( log.isLoggable( Level.FINE ) )
 			log.fine( "Adding " + axiom );
@@ -139,7 +144,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	 * Returns if the extracted modules can be updated. We can update the
 	 * modules if we have computed modules and no non-local axiom has been added
 	 * or deleted.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean canUpdate() {
@@ -149,15 +154,11 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	/**
 	 * Checks if the given axiom is non-local w.r.t. empty signature and updates
 	 * the {@link #nonLocalAxioms} field.
-	 * 
+	 *
 	 * @param axiom -
 	 *            Axiom to be checked
 	 */
 	private void checkNonLocalAxiom(OWLAxiom axiom) {
-
-		if( !axiom.isLogicalAxiom() )
-			return;
-
 		// no need to check for non-locals if we already know that we cannot
 		// update modules
 		if( canUpdate() ) {
@@ -169,6 +170,11 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	}
 
 	public void deleteAxiom(OWLAxiom axiom) {
+		if( !axiom.isLogicalAxiom() )
+			return;
+
+		axiom = axiom.getAxiomWithoutAnnotations();
+
 		checkNonLocalAxiom( axiom );
 
 		if( !axioms.contains(axiom) ) {
@@ -189,7 +195,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 	/**
 	 * Extract modules from scratch
-	 * 
+	 *
 	 * @return
 	 */
 	public void extractModules() {
@@ -202,7 +208,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		// no need to consider deletions for initial module extraction
 		deletions.clear();
 		changes.clear();
-		
+
 		nonLocalAxioms = false;
 
 		modules = new HashMap<OWLEntity, Set<OWLEntity>>();
@@ -216,7 +222,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	 * This is a main method to extract the signature for a set of classes Note
 	 * that this method updates the modules for the classes which are maintained
 	 * (either newly created or already existing) in a module partial order
-	 * 
+	 *
 	 * @param entities -
 	 *            the set of entities whose modules should be extracted
 	 */
@@ -280,7 +286,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	/**
 	 * Given an axiom, this function locates all root nodes in the partial order
 	 * that are affected by the update
-	 * 
+	 *
 	 * @param axiom -
 	 *            the update
 	 * @param node -
@@ -337,7 +343,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 	/**
 	 * Return the axioms which references this entity
-	 * 
+	 *
 	 * @param entity
 	 * @return
 	 */
@@ -356,12 +362,12 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		Set<OWLEntity> augmentedSig = new HashSet<OWLEntity>( signature );
 		augmentedSig.add( OWL.Thing );
 		Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
-		
+
 		Set<OWLAxiom> candidates = new HashSet<OWLAxiom>();
 		for( OWLEntity e : signature ) {
 			candidates.addAll( getAxioms( e ) );
 		}
-		
+
 		for( OWLAxiom axiom : candidates ) {
 			Set<OWLEntity> sigAxiom = axiom.getSignature();
 
@@ -400,7 +406,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	/**
 	 * Returns a new ontology that contains the axioms that are in the module
 	 * for given set of entities
-	 * 
+	 *
 	 * @param signature
 	 * @return
 	 * @throws OWLException
@@ -412,7 +418,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 	/**
 	 * Checks if axioms have been added/removed and modules need to be updated
-	 * 
+	 *
 	 * @return <code>true</code> if axioms have been added/removed
 	 */
 	public boolean isChanged() {
@@ -459,7 +465,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	/**
 	 * Method to 1) find affected modules and 2) update them - that is extract
 	 * their new signatures
-	 * 
+	 *
 	 * @param effects affected entities
 	 * @param taxonomy classification hierarchy
 	 * @param add Flag for additions/deletions
@@ -516,7 +522,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 				String msg = "No module for " + entity;
 				log.log( Level.SEVERE,  msg, new RuntimeException( msg ) );
 			}
-				
+
 			effects.addAll( module );
 		}
 	}
@@ -566,7 +572,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	public Set<OWLEntity> getEntities() {
 		return Collections.unmodifiableSet( entityAxioms.keySet() );
 	}
-	
+
 	public void resetModules() {
 		// cache the axiom signatures
 		processAdditions();
@@ -575,12 +581,12 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		// no need to consider deletions for initial module extraction
 		deletions.clear();
 		changes.clear();
-		
+
 		nonLocalAxioms = false;
 
 		modules = new MultiValueMap<OWLEntity, OWLEntity>();
 	}
-	
+
 	/**
 	 * @inheritDoc
 	 */
@@ -593,10 +599,10 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 			|| (expressivity.hasNominal() && !PelletOptions.USE_PSEUDO_NOMINALS);
 
 	}
-	
+
 	/**
 	 * Checks whether there are unapplied changes to the TBox
-	 * 
+	 *
 	 * @return true if there are unapplied changes to TBox
 	 */
 	public boolean isTBoxChanged() {
@@ -605,7 +611,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 	/**
 	 * Checks whether there are unapplied changes to the RBox
-	 * 
+	 *
 	 * @return true if there are unapplied changes to RBox
 	 */
 	public boolean isRBoxChanged() {
@@ -614,17 +620,17 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 	/**
 	 * Checks whether there are unapplied changes to the ABox
-	 * 
+	 *
 	 * @return true if there are unapplied changes to ABox
 	 */
 	public boolean isABoxChanged() {
 		return changes.contains( ChangeType.ABOX_ADD ) || changes.contains( ChangeType.ABOX_DEL );
 	}
-	
+
 	/**
 	 * Checks the category of the change the addition of the axiom introduces
 	 * (i.e., change to a TBox, RBox, or ABox), and updates the changes set appropriately.
-	 * 
+	 *
 	 * @param axiom the axiom being added
 	 */
 	private void categorizeAddedAxiom(OWLAxiom axiom) {
@@ -642,9 +648,9 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	/**
 	 * Checks the category of the change the deletion of the axiom introduces
 	 * (i.e., change to a TBox, RBox, or ABox), and updates the changes set appropriately.
-	 * 
+	 *
 	 * @param axiom the axiom being removed
-	 */	
+	 */
 	private void categorizeRemovedAxiom(OWLAxiom axiom) {
 		if (ChangeTypeDetector.isTBoxAxiom(axiom)) {
 			changes.add(ChangeType.TBOX_DEL);
@@ -656,19 +662,19 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 			changes.add(ChangeType.ABOX_DEL);
 		}
 	}
-	
+
 	// I/O code to persist the state of the AbstractModuleExtractor
-	
+
 	/**
 	 * The name of the entry in the zip file that stores axioms
 	 */
 	private static final String MODULE_EXTRACTOR_AXIOMS_FILE_NAME = "ModuleExtractorAxioms";
-	
+
 	/**
 	 * The name of the entry in the zip file that stores the module information
 	 */
 	private static final String MODULE_EXTRACTOR_MODULES_FILE_NAME = "ModuleExtractorModules";
-	
+
 	/**
 	 * @inheritDoc
 	 */
@@ -676,47 +682,47 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		if ( !additions.isEmpty() || !deletions.isEmpty() ) {
 			throw new IllegalStateException( "The module extractor contains unapplied changes to the modules, and therefore cannot be saved." );
 		}
-		
+
 		// first save the axioms
 		ZipEntry axiomsEntry = new ZipEntry( MODULE_EXTRACTOR_AXIOMS_FILE_NAME );
 		outputStream.putNextEntry( axiomsEntry );
-		
+
 		ModuleExtractorPersistence.saveAxioms( axioms, new UncloseableOutputStream( outputStream ) );
-		
-		// next save the modules		
+
+		// next save the modules
 		ZipEntry modulesEntry = new ZipEntry( MODULE_EXTRACTOR_MODULES_FILE_NAME );
 		outputStream.putNextEntry( modulesEntry );
-		
+
 		ModuleExtractorPersistence.saveModules( modules, new UncloseableOutputStream( outputStream ) );
-		
+
 		outputStream.flush();
 	}
-	
+
 	/**
 	 * @inheritDoc
 	 */
 	public void load(ZipInputStream inputStream) throws IOException, IllegalArgumentException {
 		resetModules();
-		
+
 		ZipEntry zipEntry = inputStream.getNextEntry();
-		
+
 		if( !( MODULE_EXTRACTOR_AXIOMS_FILE_NAME.equals( zipEntry.getName() ) ) ) {
 			throw new IllegalArgumentException( String.format( "Unexpected entry (%s) in ZipInputStream. Expected %s", zipEntry.getName(), MODULE_EXTRACTOR_AXIOMS_FILE_NAME ) );
 		}
 
 		Collection<OWLAxiom> axioms = OntologyUtils.loadAxioms(inputStream);
-		
+
 		modules = null;
 		additions.addAll(axioms);
 		processAdditions();
 		additions.clear();
-		
+
 		zipEntry = inputStream.getNextEntry();
-		
+
 		if( !( MODULE_EXTRACTOR_MODULES_FILE_NAME.equals( zipEntry.getName() ) ) ) {
 			throw new IllegalArgumentException( String.format( "Unexpected entry (%s) in ZipInputStream. Expected %s", zipEntry.getName(), MODULE_EXTRACTOR_MODULES_FILE_NAME ) );
 		}
-		
-		modules = ModuleExtractorPersistence.loadModules( inputStream ); 
+
+		modules = ModuleExtractorPersistence.loadModules( inputStream );
 	}
 }

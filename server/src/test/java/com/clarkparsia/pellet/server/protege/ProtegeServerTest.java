@@ -12,8 +12,8 @@ import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
-import edu.stanford.protege.metaproject.Manager;
-import edu.stanford.protege.metaproject.api.MetaprojectFactory;
+import edu.stanford.protege.metaproject.ConfigurationManager;
+import edu.stanford.protege.metaproject.api.PolicyFactory;
 import edu.stanford.protege.metaproject.api.Project;
 import edu.stanford.protege.metaproject.api.ProjectOptions;
 import org.apache.commons.io.FileUtils;
@@ -85,8 +85,8 @@ public abstract class ProtegeServerTest extends TestUtilities {
 	@Before
 	public void before() throws Exception {
 		Files.write(CONFIG, CONFIG_FILE, Charsets.UTF_8);
-		mServer = new HTTPServer();
-		mServer.start();
+		mServer = new HTTPServer(CONFIG_FILE.getAbsolutePath());
+//		mServer.start();
 	}
 
 	@After
@@ -107,7 +107,7 @@ public abstract class ProtegeServerTest extends TestUtilities {
 	}
 
 	protected static void createOntology(final String resourceName, final File ont, final LocalHttpClient client) throws Exception {
-		MetaprojectFactory f = Manager.getFactory();
+		PolicyFactory f = ConfigurationManager.getFactory();
 		Project p = f.getProject(f.getProjectId(resourceName),
 		                         f.getName(resourceName),
 		                         f.getDescription(resourceName),

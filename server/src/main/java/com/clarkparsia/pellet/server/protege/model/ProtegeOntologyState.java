@@ -18,8 +18,13 @@ import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import edu.stanford.protege.metaproject.api.ProjectId;
+import edu.stanford.protege.metaproject.impl.ProjectIdImpl;
 import org.protege.editor.owl.client.LocalHttpClient;
+import org.protege.editor.owl.client.api.exception.AuthorizationException;
+import org.protege.editor.owl.client.api.exception.ClientRequestException;
 import org.protege.editor.owl.client.util.ClientUtils;
+import org.protege.editor.owl.server.util.SnapShot;
 import org.protege.editor.owl.server.versioning.api.ChangeHistory;
 import org.protege.editor.owl.server.versioning.api.DocumentRevision;
 import org.protege.editor.owl.server.versioning.api.ServerDocument;
@@ -34,6 +39,8 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 	public static final Logger LOGGER = Logger.getLogger(ProtegeOntologyState.class.getName());
 
 	private final LocalHttpClient client;
+
+	private final ProjectId projectId;
 	
 	private final ServerDocument remoteOnt;
 
@@ -42,12 +49,13 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 	private boolean snapshotLoaded = false;
 
 	public ProtegeOntologyState(final LocalHttpClient client,
-	                            final ServerDocument remoteOnt,
-	                            final Path path) throws IOException {
+	                            final ProjectId projectId,
+	                            final Path path) throws IOException, ClientRequestException, AuthorizationException {
 		super(path);
 
 		this.client = client;
-		this.remoteOnt = remoteOnt;
+		this.projectId = projectId;
+		this.remoteOnt = client.openProject(projectId);;
 		this.revision = readRevision(path);
 		this.snapshotLoaded = revision.getRevisionNumber() > 0;
 		writeRevision();
@@ -77,11 +85,8 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		try {
 			boolean loadSnapshot = !snapshotLoaded;
 			if (loadSnapshot) {
-				if(!client.snapShotExists(remoteOnt)) {
-					client.getSnapShot(remoteOnt);
-				}
-
-				OWLOntology snapshotOnt = client.loadSnapShot(MANAGER, remoteOnt);
+				SnapShot snapshot = client.getSnapShot(projectId);
+				OWLOntology snapshotOnt = snapshot.getOntology();
 				MANAGER.addAxioms(ontology, snapshotOnt.getAxioms());
 				MANAGER.applyChange(new SetOntologyID(ontology, snapshotOnt.getOntologyID()));
 				snapshotLoaded = true;

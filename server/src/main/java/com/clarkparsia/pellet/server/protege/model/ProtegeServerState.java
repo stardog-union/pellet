@@ -65,9 +65,7 @@ public final class ProtegeServerState extends ServerStateImpl {
 		try {
 			ProjectId projectID = new ProjectIdImpl(ontologyPath);
 
-			ServerDocument serverDoc = mClient.openProject(projectID);
-
-			ProtegeOntologyState state = new ProtegeOntologyState(mClient, serverDoc, mHome.resolve(projectID.get()).resolve("reasoner_state.bin"));
+			ProtegeOntologyState state = new ProtegeOntologyState(mClient, projectID, mHome.resolve(projectID.get()).resolve("reasoner_state.bin"));
 
 			LOGGER.info("Loaded revision " + state.getVersion());
 

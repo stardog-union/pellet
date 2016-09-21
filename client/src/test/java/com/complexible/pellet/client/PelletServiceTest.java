@@ -5,7 +5,8 @@ import java.util.UUID;
 
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
-import edu.stanford.protege.metaproject.Manager;
+
+import edu.stanford.protege.metaproject.ConfigurationManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.model.vocabulary.RDFS;
@@ -65,7 +66,7 @@ public class PelletServiceTest extends PelletClientTest {
 		OWLOntology ont = OWL.manager.createOntology(agencyOntId);
 		Commit commit = ClientUtils.createCommit(mClient, "comment", Arrays.<OWLOntologyChange>asList(new AddAxiom(ont, OWL.subClassOf(OWL.Nothing, OWL.Thing))));
 		CommitBundle commitBundle = new CommitBundleImpl(DocumentRevision.START_REVISION, commit);
-		mClient.commit(Manager.getFactory().getProjectId(AGENCIES_ONT), commitBundle);
+		mClient.commit(ConfigurationManager.getFactory().getProjectId(AGENCIES_ONT), commitBundle);
 
 		pelletServer.getState().update();
 

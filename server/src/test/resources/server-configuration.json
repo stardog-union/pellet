@@ -1,315 +1,511 @@
 {
   "host": {
     "uri": "http://localhost:8080",
-    "secondaryPort": "5200"
+    "secondaryPort": "8081"
   },
-  "root": "_ROOT_",
-  "metaproject": {
-    "policy": {
-      "root": {
-        "all-projects": [
-          "mp-admin"
-        ]
-      },
-      "guest": {
-        "all-projects": [
-          "mp-guest"
-        ]
-      }
+  "root": "root/data",
+  "policy": {
+    "root": {
+      "all-projects": [
+        "mp-admin",
+        "mp-project-manager"
+      ],
+      "foo": [
+        "mp-project-manager"
+      ]
     },
-    "users": [
-      {
-        "id": "guest",
-        "name": "Guest User",
-        "emailAddress": ""
-      },
-      {
-        "id": "root",
-        "name": "Root User",
-        "emailAddress": ""
-      }
-    ],
-    "projects": [
-    ],
-    "roles": [
-      {
-        "id": "mp-admin",
-        "name": "Administrator",
-        "description": "A user with this role is allowed to do any operation on the server",
-        "operations": [
-          "add-user",
-          "remove-role",
-          "remove-axiom",
-          "add-axiom",
-          "remove-import",
-          "add-ontology-annotation",
-          "remove-user",
-          "add-role",
-          "reject-change",
-          "modify-project",
-          "remove-operation",
-          "stop-server",
-          "remove-ontology-annotation",
-          "modify-user",
-          "modify-ontology-iri",
-          "remove-project",
-          "open-project",
-          "add-import",
-          "modify-operation",
-          "retract-role",
-          "modify-settings",
-          "add-project",
-          "assign-role",
-          "add-operation",
-          "modify-role",
-          "accept-change"
-        ]
-      },
-      {
-        "id": "mp-guest",
-        "name": "Guest",
-        "description": "A user with this role is allowed to do any read operation on the server",
-        "operations": [
-          "open-project"
-        ]
-      },
-      {
-        "id": "mp-project-manager",
-        "name": "Project Manager",
-        "description": "A user with this role is allowed to create, remove, modify and open a project, as well as to perform any ontology operations",
-        "operations": [
-          "remove-axiom",
-          "remove-ontology-annotation",
-          "add-axiom",
-          "modify-ontology-iri",
-          "add-import",
-          "remove-import",
-          "remove-project",
-          "open-project",
-          "add-ontology-annotation",
-          "reject-change",
-          "add-project",
-          "modify-project",
-          "accept-change"
-        ]
-      }
-    ],
-    "operations": [
-      {
-        "default": true,
-        "id": "accept-change",
-        "name": "Accept change",
-        "description": "Accept a change in the change history",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "add-axiom",
-        "name": "Add axiom",
-        "description": "Add an axiom to the ontology",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "add-ontology-annotation",
-        "name": "Add ontology annotation",
-        "description": "Add an annotation to the ontology",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "add-import",
-        "name": "Add ontology import",
-        "description": "Add an imported ontology to the ontology",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "add-operation",
-        "name": "Add operation",
-        "description": "Add an operation to the operation registry",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "add-project",
-        "name": "Add project",
-        "description": "Add a project to the project registry",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "add-role",
-        "name": "Add role",
-        "description": "Add a role to the role registry",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "add-user",
-        "name": "Add user",
-        "description": "Add a user to the user registry",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "assign-role",
-        "name": "Assign role",
-        "description": "Assign a role to a user within a project",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "modify-operation",
-        "name": "Modify operation",
-        "description": "Modify operation details",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "modify-project",
-        "name": "Modify project",
-        "description": "Modify project details and options",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "modify-role",
-        "name": "Modify role",
-        "description": "Modify role details and associated operations",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "modify-settings",
-        "name": "Modify server settings",
-        "description": "Make changes to the settings of the server, such as host or custom properties",
-        "type": "WRITE",
-        "scope": "SERVER"
-      },
-      {
-        "default": true,
-        "id": "modify-ontology-iri",
-        "name": "Modify the ontology IRI",
-        "description": "Modify the IRI of the ontology",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "modify-user",
-        "name": "Modify user",
-        "description": "Modify user details (name and email address)",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "open-project",
-        "name": "Open project",
-        "description": "Open a project in the project registry",
-        "type": "READ",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "reject-change",
-        "name": "Reject change",
-        "description": "Reject a change in the change history",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "remove-axiom",
-        "name": "Remove axiom",
-        "description": "Remove an axiom from the ontology",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "remove-ontology-annotation",
-        "name": "Remove ontology annotation",
-        "description": "Remove an annotation from the ontology",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "remove-import",
-        "name": "Remove ontology import",
-        "description": "Remove an imported ontology from the ontology",
-        "type": "WRITE",
-        "scope": "ONTOLOGY"
-      },
-      {
-        "default": true,
-        "id": "remove-operation",
-        "name": "Remove operation",
-        "description": "Remove an operation from the operation registry",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "remove-project",
-        "name": "Remove project",
-        "description": "Remove a project from the project registry",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "remove-role",
-        "name": "Remove role",
-        "description": "Remove a role from the role registry",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "remove-user",
-        "name": "Remove user",
-        "description": "Remove a user from the user registry",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "retract-role",
-        "name": "Retract role",
-        "description": "Retract a role from a user",
-        "type": "WRITE",
-        "scope": "METAPROJECT"
-      },
-      {
-        "default": true,
-        "id": "stop-server",
-        "name": "Stop the server",
-        "description": "Stop the execution of the server",
-        "type": "EXECUTE",
-        "scope": "SERVER"
-      }
-    ]
+    "guest": {
+      "all-projects": [
+        "mp-guest"
+      ]
+    },
+    "bob": {
+      "foo": [
+        "mp-project-manager"
+      ]
+    },
+    "alice": {
+      "foo": [
+        "0d4073aa-3790-4a6a-9941-76d02c765859"
+      ]
+    }
   },
+  "users": [
+    {
+      "id": "guest",
+      "name": "Guest User",
+      "emailAddress": ""
+    },
+    {
+      "id": "root",
+      "name": "Root User",
+      "emailAddress": ""
+    },
+    {
+      "id": "alice",
+      "name": "alice",
+      "emailAddress": "alice@parts.unknown"
+    },
+    {
+      "id": "bob",
+      "name": "bob",
+      "emailAddress": "bob"
+    }
+  ],
+  "projects": [
+    {
+      "id": "foo",
+      "name": "foo",
+      "description": "foo",
+      "file": "root/data/foo/foo.history",
+      "owner": "root",
+      "options": {
+        "deprecated_child": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_CHILD"
+        ],
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ALT_DEFINITION": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Definition_Review_Date",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Definition_Reviewer_Name",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#def-source"
+        ],
+        "label_prop": [
+          "http://www.w3.org/2000/01/rdf-schema#label"
+        ],
+        "code_prop": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#code"
+        ],
+        "deprecated_role": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_ROLE"
+        ],
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#FULL_SYN": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#term-group",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#term-source"
+        ],
+        "retired_root": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Retired_Concept_Current_Year"
+        ],
+        "immutable_properties": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_CHILD",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_PARENT",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_ROLE",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_SOURCE_ROLE",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_ASSOCIATION",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_SOURCE_ASSOCIATION",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Concept_Status",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Merge_Source",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Merge_Target",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Split_From"
+        ],
+        "preretired_root": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Preretired_Concepts"
+        ],
+        "editor_note": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Editor_Note"
+        ],
+        "pref_name": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Preferred_Name"
+        ],
+        "deprecated_assoc": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_ASSOCIATION"
+        ],
+        "merge_source": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Merge_Source"
+        ],
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#DEFINITION": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Definition_Review_Date",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Definition_Reviewer_Name",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#def-source"
+        ],
+        "split_from": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Split_From"
+        ],
+        "deprecated_in_role": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_SOURCE_ROLE"
+        ],
+        "merge_target": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Merge_Target"
+        ],
+        "deprecated_in_assoc": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_SOURCE_ASSOCIATION"
+        ],
+        "deprecated_parent": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#OLD_PARENT"
+        ],
+        "complex_properties": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#FULL_SYN",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#DEFINITION",
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#ALT_DEFINITION"
+        ],
+        "design_note": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Design_Note"
+        ],
+        "premerged_root": [
+          "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#Premerged_Concepts"
+        ]
+      }
+    }
+  ],
+  "roles": [
+    {
+      "id": "mp-admin",
+      "name": "Administrator",
+      "description": "A user with this role is allowed to do any operation on the server",
+      "operations": [
+        "add-user",
+        "remove-role",
+        "remove-axiom",
+        "add-axiom",
+        "remove-import",
+        "add-ontology-annotation",
+        "remove-user",
+        "add-role",
+        "reject-change",
+        "modify-project",
+        "remove-operation",
+        "stop-server",
+        "remove-ontology-annotation",
+        "modify-user",
+        "modify-ontology-iri",
+        "remove-project",
+        "open-project",
+        "add-import",
+        "modify-operation",
+        "retract-role",
+        "modify-settings",
+        "add-project",
+        "assign-role",
+        "add-operation",
+        "modify-role",
+        "accept-change"
+      ]
+    },
+    {
+      "id": "mp-guest",
+      "name": "Guest",
+      "description": "A user with this role is allowed to do any read operation on the server",
+      "operations": [
+        "open-project"
+      ]
+    },
+    {
+      "id": "mp-project-manager",
+      "name": "Project Manager",
+      "description": "A user with this role is allowed to create, remove, modify and open a project, as well as to perform any ontology operations",
+      "operations": [
+        "remove-axiom",
+        "remove-ontology-annotation",
+        "add-axiom",
+        "modify-ontology-iri",
+        "add-import",
+        "open-project",
+        "remove-import",
+        "remove-project",
+        "add-ontology-annotation",
+        "add-project",
+        "modify-project",
+        "reject-change",
+        "retire",
+        "merge",
+        "clone",
+        "accept-change",
+        "Split"
+      ]
+    },
+    {
+      "id": "fd461d3a-8f94-49f3-af4b-b4cec1d309cf",
+      "name": "test-scroll-ops-display",
+      "description": "A user with this role should be able to do many things, but it\u0027s difficult to see the operations in the display panel",
+      "operations": [
+        "add-user",
+        "add-project",
+        "add-role",
+        "retire",
+        "remove-ontology-annotation",
+        "add-axiom",
+        "merge",
+        "modify-user",
+        "add-operation",
+        "add-import",
+        "open-project",
+        "Split"
+      ]
+    },
+    {
+      "id": "0d4073aa-3790-4a6a-9941-76d02c765859",
+      "name": "workflow_modeler",
+      "description": "a typical modeler",
+      "operations": [
+        "retire",
+        "remove-axiom",
+        "add-axiom",
+        "merge",
+        "clone",
+        "Split"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "default": true,
+      "id": "accept-change",
+      "name": "Accept change",
+      "description": "Accept a change in the change history",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "add-axiom",
+      "name": "Add axiom",
+      "description": "Add an axiom to the ontology",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "add-ontology-annotation",
+      "name": "Add ontology annotation",
+      "description": "Add an annotation to the ontology",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "add-import",
+      "name": "Add ontology import",
+      "description": "Add an imported ontology to the ontology",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "add-operation",
+      "name": "Add operation",
+      "description": "Add an operation to the operation registry",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "add-project",
+      "name": "Add project",
+      "description": "Add a project to the project registry",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "add-role",
+      "name": "Add role",
+      "description": "Add a role to the role registry",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "add-user",
+      "name": "Add user",
+      "description": "Add a user to the user registry",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "assign-role",
+      "name": "Assign role",
+      "description": "Assign a role to a user within a project",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "clone",
+      "name": "Clone",
+      "description": "Clone a class",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "merge",
+      "name": "Merge",
+      "description": "Accept a proposed merge of two classes",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "modify-operation",
+      "name": "Modify operation",
+      "description": "Modify operation details",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "modify-project",
+      "name": "Modify project",
+      "description": "Modify project details and options",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "modify-role",
+      "name": "Modify role",
+      "description": "Modify role details and associated operations",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "modify-settings",
+      "name": "Modify server settings",
+      "description": "Make changes to the settings of the server, such as host or custom properties",
+      "type": "WRITE",
+      "scope": "SERVER"
+    },
+    {
+      "default": true,
+      "id": "modify-ontology-iri",
+      "name": "Modify the ontology IRI",
+      "description": "Modify the IRI of the ontology",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "modify-user",
+      "name": "Modify user",
+      "description": "Modify user details (name and email address)",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "open-project",
+      "name": "Open project",
+      "description": "Open a project in the project registry",
+      "type": "READ",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "reject-change",
+      "name": "Reject change",
+      "description": "Reject a change in the change history",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "remove-axiom",
+      "name": "Remove axiom",
+      "description": "Remove an axiom from the ontology",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "remove-ontology-annotation",
+      "name": "Remove ontology annotation",
+      "description": "Remove an annotation from the ontology",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "remove-import",
+      "name": "Remove ontology import",
+      "description": "Remove an imported ontology from the ontology",
+      "type": "WRITE",
+      "scope": "ONTOLOGY"
+    },
+    {
+      "default": true,
+      "id": "remove-operation",
+      "name": "Remove operation",
+      "description": "Remove an operation from the operation registry",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "remove-project",
+      "name": "Remove project",
+      "description": "Remove a project from the project registry",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "remove-role",
+      "name": "Remove role",
+      "description": "Remove a role from the role registry",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "remove-user",
+      "name": "Remove user",
+      "description": "Remove a user from the user registry",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "retire",
+      "name": "Retire",
+      "description": "Accept proposed retirement",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "retract-role",
+      "name": "Retract role",
+      "description": "Retract a role from a user",
+      "type": "WRITE",
+      "scope": "POLICY"
+    },
+    {
+      "default": true,
+      "id": "stop-server",
+      "name": "Stop the server",
+      "description": "Stop the execution of the server",
+      "type": "EXECUTE",
+      "scope": "SERVER"
+    },
+    {
+      "default": true,
+      "id": "Split",
+      "name": "split",
+      "description": "Split a class into two classes",
+      "type": "WRITE",
+      "scope": "POLICY"
+    }
+  ],
   "authentication": [
+    {
+      "userId": "alice",
+      "password": "d4f635f2ae61b6c3fd9b7334602124a2ac9898a6200b5665",
+      "salt": "b7ba31cb2c9cafbcc960e96118e4c92fca9af8b3c808987a"
+    },
+    {
+      "userId": "bob",
+      "password": "27839988860207d5549cba53cc9d4a359deac78d2a802ffa",
+      "salt": "79d3d0100d2073258eafdf085bcf2a2e2e8034de5a077f79"
+    },
     {
       "userId": "guest",
       "password": "4e39216f3fe3bba1716b0b6a88f71d49fa4454835e09d3a9",
       "salt": "75f8597a1b9df86d45e48de4b253b0d2fb26d71e7f45ea34"
+    },
+    {
+      "userId": "joe",
+      "password": "1a99b8180f29463f35370afef404dfb31f132741b85080b9",
+      "salt": "d42a81f5945d99f1737618449aac8f6f6fd69680d0860571"
     },
     {
       "userId": "root",
@@ -317,5 +513,6 @@
       "salt": "ff693dff6d089ec722af600fa9abd9e4d6cf2aed985b18a1"
     }
   ],
-  "properties": {}
+  "properties": {
+  }
 }
