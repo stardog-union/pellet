@@ -111,10 +111,9 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		Project p = f.getProject(f.getProjectId(resourceName),
 		                         f.getName(resourceName),
 		                         f.getDescription(resourceName),
-		                         ont,
 		                         f.getUserId("admin"),
 		                         Optional.<ProjectOptions>empty());
-		ServerDocument s = client.createProject(p);
+		ServerDocument s = client.createProject(p, ont);
 		System.out.println(s);
 	}
 }
