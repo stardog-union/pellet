@@ -59,7 +59,7 @@ import com.clarkparsia.pellint.rdfxml.RDFModelReader;
 import com.clarkparsia.pellint.rdfxml.RDFModelWriter;
 import com.clarkparsia.pellint.util.CollectionUtil;
 import com.clarkparsia.pellint.util.IllegalPellintArgumentException;
-import com.hp.hpl.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.Statement;
 
 /**
  * <p>

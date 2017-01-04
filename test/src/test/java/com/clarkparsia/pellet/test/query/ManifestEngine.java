@@ -21,17 +21,17 @@ import java.util.logging.Logger;
 import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
 import org.mindswap.pellet.utils.VersionInfo;
 
-import com.hp.hpl.jena.query.ARQ;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.sparql.vocabulary.EARL;
-import com.hp.hpl.jena.sparql.vocabulary.FOAF;
-import com.hp.hpl.jena.util.FileManager;
-import com.hp.hpl.jena.util.LocatorFile;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.apache.jena.query.ARQ;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.sparql.vocabulary.EARL;
+import org.apache.jena.sparql.vocabulary.FOAF;
+import org.apache.jena.util.FileManager;
+import org.apache.jena.util.LocatorFile;
+import org.apache.jena.vocabulary.RDF;
 
 /**
  * <p>

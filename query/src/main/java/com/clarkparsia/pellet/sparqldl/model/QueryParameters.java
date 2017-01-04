@@ -14,8 +14,8 @@ import java.util.Set;
 import org.mindswap.pellet.jena.JenaUtils;
 import org.mindswap.pellet.utils.ATermUtils;
 
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.QuerySolutionMap;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.QuerySolutionMap;
 
 import aterm.ATermAppl;
 

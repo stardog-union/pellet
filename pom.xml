@@ -43,7 +43,7 @@
     <junit.version>4.11</junit.version>
     <slf4j.version>1.7.5</slf4j.version>
 	<owlapi.version>[4.0.2,4.2)</owlapi.version>
-    <jena.version>2.13.0</jena.version>
+    <jena.version>3.0.1</jena.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
@@ -278,9 +278,9 @@
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
-      <modules>
-        <module>dist</module>
-      </modules>
+      <!--<modules>-->
+        <!--<module>dist</module>-->
+      <!--</modules>-->
     </profile>
     <profile>
       <id>findbugs</id>

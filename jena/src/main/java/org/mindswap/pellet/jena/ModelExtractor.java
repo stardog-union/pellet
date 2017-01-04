@@ -21,15 +21,15 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
 import aterm.ATermAppl;
 
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.util.iterator.Filter;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
-import com.hp.hpl.jena.vocabulary.ReasonerVocabulary;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.util.iterator.Filter;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 /**
  * Extract a Jena model that contains the information Pellet inferred. Models
@@ -381,7 +381,9 @@ public class ModelExtractor {
 					}
 				}
 			}
-			model.getGraph().getBulkUpdateHandler().add( triples );
+			for ( Triple t : triples ) {
+				model.getGraph().add( t );
+			}
 		}
 
 		return model;
@@ -502,8 +504,9 @@ public class ModelExtractor {
 					}
 				}
 			}
-
-			model.getGraph().getBulkUpdateHandler().add( triples );
+			for ( Triple t : triples ) {
+				model.getGraph().add( t );
+			}
 		}
 
 		return model;
@@ -642,7 +645,9 @@ public class ModelExtractor {
 
 			// FIXME: Add range statements
 
-			model.getGraph().getBulkUpdateHandler().add( triples );
+			for ( Triple t : triples ) {
+				model.getGraph().add( t );
+			}
 		}
 
 		return model;

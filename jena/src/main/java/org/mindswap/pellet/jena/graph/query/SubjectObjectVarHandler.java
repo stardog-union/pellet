@@ -16,10 +16,10 @@ import org.mindswap.pellet.utils.iterator.NestedIterator;
 
 import aterm.ATermAppl;
 
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.hp.hpl.jena.util.iterator.WrappedIterator;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.util.iterator.WrappedIterator;
 
 abstract class SubjectObjectVarHandler extends TripleQueryHandler {
 	public abstract Collection<ATermAppl> getSubjects(KnowledgeBase kb);

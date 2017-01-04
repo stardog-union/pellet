@@ -18,8 +18,8 @@ import org.mindswap.pellet.jena.ModelExtractor;
 import org.mindswap.pellet.jena.ModelExtractor.StatementType;
 import org.mindswap.pellet.utils.SetUtils;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 
 /**
  * <p>

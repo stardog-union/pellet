@@ -14,9 +14,9 @@ import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 
 import aterm.ATermAppl;
 
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.util.iterator.ExtendedIterator;
 
 abstract class SingleVarQueryHandler extends TripleQueryHandler {
 	public abstract Set<ATermAppl> getResults(KnowledgeBase kb, ATermAppl term);

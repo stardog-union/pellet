@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.clarkparsia.pellet.test.query.MiscSPARQLDLTest;
-import com.hp.hpl.jena.ontology.OntDocumentManager.ReadFailureHandler;
-import com.hp.hpl.jena.rdf.model.Model;
+import org.apache.jena.ontology.OntDocumentManager.ReadFailureHandler;
+import org.apache.jena.rdf.model.Model;
 
 /**
  * @author Pavel Klinov
@@ -17,7 +17,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 public class ResourceImportLoader implements ReadFailureHandler {
 
 	/* (non-Javadoc)
-	 * @see com.hp.hpl.jena.ontology.OntDocumentManager.ReadFailureHandler#handleFailedRead(java.lang.String, com.hp.hpl.jena.rdf.model.Model, java.lang.Exception)
+	 * @see org.apache.jena.ontology.OntDocumentManager.ReadFailureHandler#handleFailedRead(java.lang.String, org.apache.jena.rdf.model.Model, java.lang.Exception)
 	 */
 	@Override
 	public void handleFailedRead(String url, Model m, Exception e) {

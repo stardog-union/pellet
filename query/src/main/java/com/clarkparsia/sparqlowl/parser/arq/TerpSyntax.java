@@ -7,7 +7,7 @@
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 package com.clarkparsia.sparqlowl.parser.arq;
 
-import com.hp.hpl.jena.query.Syntax;
+import org.apache.jena.query.Syntax;
 
 /**
  * <p>
