@@ -492,10 +492,13 @@ public class SizeEstimate {
 				}
 			}
 		}
-
-		if( !computed ) {
-			avgClassesPI = average( classesPI.values() );
-			avgDirectClassesPI = average( directClassesPI.values() );
+		synchronized(classesPI) {
+			synchronized(directClassesPI) {
+				if( !computed ) {
+					avgClassesPI = average( classesPI.values() );
+					avgDirectClassesPI = average( directClassesPI.values() );
+				}
+			}
 		}
 
 		if( !kb.isRealized() ) {
