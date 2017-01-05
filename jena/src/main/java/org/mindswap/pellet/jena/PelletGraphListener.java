@@ -154,7 +154,7 @@ public class PelletGraphListener implements GraphListener {
     statementDeleted = false;
   }
 
-  public Set<Graph> getChangedGraphs() {
+  public synchronized Set<Graph> getChangedGraphs() {
     final Set<Graph> prevLeaves = leafGraphs;
 
     leafGraphs = CollectionUtils.makeSet();

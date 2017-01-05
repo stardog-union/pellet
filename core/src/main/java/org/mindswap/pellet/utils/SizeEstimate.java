@@ -324,7 +324,7 @@ public class SizeEstimate {
 		return x.size() > 0 ? ((double) a) / x.size() : 1;
 	}
 
-	public void compute(Collection<ATermAppl> cs, Collection<ATermAppl> ps) {
+	public synchronized void compute(Collection<ATermAppl> cs, Collection<ATermAppl> ps) {
 		Collection<ATermAppl> concepts = new HashSet<ATermAppl>( cs );
 		Collection<ATermAppl> properties = new HashSet<ATermAppl>( ps );
 
@@ -492,7 +492,7 @@ public class SizeEstimate {
 				}
 			}
 		}
-
+		
 		if( !computed ) {
 			avgClassesPI = average( classesPI.values() );
 			avgDirectClassesPI = average( directClassesPI.values() );
