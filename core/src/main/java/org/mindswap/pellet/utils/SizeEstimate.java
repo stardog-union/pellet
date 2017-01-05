@@ -521,32 +521,35 @@ public class SizeEstimate {
 
 			final int avgCPI = Double.valueOf( avgClassesPI ).intValue();
 			final int avgDCPI = Double.valueOf( avgDirectClassesPI ).intValue();
+			synchronized(classesPI) {
+					synchronized(directClassesPI) {
+						for( final ATermAppl i : kb.getIndividuals() ) {
+							Integer size = classesPI.get( i );
 
-			for( final ATermAppl i : kb.getIndividuals() ) {
-				Integer size = classesPI.get( i );
+							if( size == null ) {
+								size = avgCPI;
+							}
 
-				if( size == null ) {
-					size = avgCPI;
+							// postprocessing in case of sampling
+							if( size == 0 )
+								classesPI.put( i, 1 );
+							else
+								classesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
+
+							size = directClassesPI.get( i );
+
+							if( size == null ) {
+								size = avgDCPI;
+							}
+
+							// postprocessing in case of sampling
+							if( size == 0 )
+								directClassesPI.put( i, 1 );
+							else
+								directClassesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
+						}
+					}
 				}
-
-				// postprocessing in case of sampling
-				if( size == 0 )
-					classesPI.put( i, 1 );
-				else
-					classesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
-
-				size = directClassesPI.get( i );
-
-				if( size == null ) {
-					size = avgDCPI;
-				}
-
-				// postprocessing in case of sampling
-				if( size == 0 )
-					directClassesPI.put( i, 1 );
-				else
-					directClassesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
-			}
 		}
 
 		for( final ATermAppl p : properties ) {
