@@ -324,7 +324,7 @@ public class SizeEstimate {
 		return x.size() > 0 ? ((double) a) / x.size() : 1;
 	}
 
-	public void compute(Collection<ATermAppl> cs, Collection<ATermAppl> ps) {
+	public synchronized void compute(Collection<ATermAppl> cs, Collection<ATermAppl> ps) {
 		Collection<ATermAppl> concepts = new HashSet<ATermAppl>( cs );
 		Collection<ATermAppl> properties = new HashSet<ATermAppl>( ps );
 
@@ -427,30 +427,27 @@ public class SizeEstimate {
 			float random = randomGen.nextFloat();
 			if( random > PelletOptions.SAMPLING_RATIO )
 				continue;
-			synchronized(classesPI) {
-				synchronized(directClassesPI) {
-					if( kb.isRealized() ) {
-						classesPI.put( ind, kb.getTypes( ind ).size() );
-						directClassesPI.put( ind, kb.getTypes( ind, true ).size() );
-					}
-					else {
-						classesPI.put( ind, 0 );
-						directClassesPI.put( ind, 0 );
+			
+			if( kb.isRealized() ) {
+				classesPI.put( ind, kb.getTypes( ind ).size() );
+				directClassesPI.put( ind, kb.getTypes( ind, true ).size() );
+			}
+			else {
+				classesPI.put( ind, 0 );
+				directClassesPI.put( ind, 0 );
 
-						for( final ATermAppl c : concepts ) {
-							// estimate for number of instances per given class
+				for( final ATermAppl c : concepts ) {
+					// estimate for number of instances per given class
 
-							Bool isKnownType = kb.getABox().isKnownType( ind, c );
-							if( isKnownType.isTrue()
-									|| (CHECK_CONCEPT_SAT && isKnownType.isUnknown() && (randomGen
-											.nextFloat() < UNKNOWN_PROB)) ) {
+					Bool isKnownType = kb.getABox().isKnownType( ind, c );
+					if( isKnownType.isTrue()
+							|| (CHECK_CONCEPT_SAT && isKnownType.isUnknown() && (randomGen
+									.nextFloat() < UNKNOWN_PROB)) ) {
 
-								instancesPC.put( c, size( c ) + 1 );
-								directInstancesPC.put( c, size( c ) + 1 ); // TODO
-								classesPI.put( ind, classesPerInstance( ind, false ) + 1 );
-								directClassesPI.put( ind, classesPerInstance( ind, true ) + 1 ); // TODO
-							}
-						}
+						instancesPC.put( c, size( c ) + 1 );
+						directInstancesPC.put( c, size( c ) + 1 ); // TODO
+						classesPI.put( ind, classesPerInstance( ind, false ) + 1 );
+						directClassesPI.put( ind, classesPerInstance( ind, true ) + 1 ); // TODO
 					}
 				}
 			}
@@ -495,13 +492,9 @@ public class SizeEstimate {
 				}
 			}
 		}
-		synchronized(classesPI) {
-			synchronized(directClassesPI) {
-				if( !computed ) {
-					avgClassesPI = average( classesPI.values() );
-					avgDirectClassesPI = average( directClassesPI.values() );
-				}
-			}
+		if( !computed ) {
+			avgClassesPI = average( classesPI.values() );
+			avgDirectClassesPI = average( directClassesPI.values() );
 		}
 
 		if( !kb.isRealized() ) {
@@ -524,36 +517,33 @@ public class SizeEstimate {
 
 			final int avgCPI = Double.valueOf( avgClassesPI ).intValue();
 			final int avgDCPI = Double.valueOf( avgDirectClassesPI ).intValue();
-			synchronized(classesPI) {
-					synchronized(directClassesPI) {
-						for( final ATermAppl i : kb.getIndividuals() ) {
-							Integer size = classesPI.get( i );
+			
+			for( final ATermAppl i : kb.getIndividuals() ) {
+				Integer size = classesPI.get( i );
 
-							if( size == null ) {
-								size = avgCPI;
-							}
-
-							// postprocessing in case of sampling
-							if( size == 0 )
-								classesPI.put( i, 1 );
-							else
-								classesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
-
-							size = directClassesPI.get( i );
-
-							if( size == null ) {
-								size = avgDCPI;
-							}
-
-							// postprocessing in case of sampling
-							if( size == 0 )
-								directClassesPI.put( i, 1 );
-							else
-								directClassesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
-						}
-					}
+				if( size == null ) {
+					size = avgCPI;
 				}
-		}
+
+				// postprocessing in case of sampling
+				if( size == 0 )
+					classesPI.put( i, 1 );
+				else
+					classesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
+
+				size = directClassesPI.get( i );
+
+				if( size == null ) {
+					size = avgDCPI;
+				}
+
+				// postprocessing in case of sampling
+				if( size == 0 )
+					directClassesPI.put( i, 1 );
+				else
+					directClassesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
+			}
+					
 
 		for( final ATermAppl p : properties ) {
 			int size = size( p );
