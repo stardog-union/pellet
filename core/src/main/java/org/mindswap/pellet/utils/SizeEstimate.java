@@ -427,7 +427,7 @@ public class SizeEstimate {
 			float random = randomGen.nextFloat();
 			if( random > PelletOptions.SAMPLING_RATIO )
 				continue;
-			
+
 			if( kb.isRealized() ) {
 				classesPI.put( ind, kb.getTypes( ind ).size() );
 				directClassesPI.put( ind, kb.getTypes( ind, true ).size() );
@@ -492,6 +492,7 @@ public class SizeEstimate {
 				}
 			}
 		}
+		
 		if( !computed ) {
 			avgClassesPI = average( classesPI.values() );
 			avgDirectClassesPI = average( directClassesPI.values() );
@@ -517,7 +518,7 @@ public class SizeEstimate {
 
 			final int avgCPI = Double.valueOf( avgClassesPI ).intValue();
 			final int avgDCPI = Double.valueOf( avgDirectClassesPI ).intValue();
-			
+
 			for( final ATermAppl i : kb.getIndividuals() ) {
 				Integer size = classesPI.get( i );
 
@@ -543,7 +544,7 @@ public class SizeEstimate {
 				else
 					directClassesPI.put( i, (int) (size / PelletOptions.SAMPLING_RATIO) );
 			}
-					
+		}
 
 		for( final ATermAppl p : properties ) {
 			int size = size( p );
